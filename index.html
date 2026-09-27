@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Font Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -18,8 +18,10 @@
                     fontFamily: { cairo: ['Cairo', 'sans-serif'] },
                     colors: {
                         brand: {
+                            400: '#34d399',
                             500: '#10b981',
                             600: '#059669',
+                            700: '#047857',
                         }
                     }
                 }
@@ -28,135 +30,179 @@
     </script>
     <style>
         body { font-family: 'Cairo', sans-serif; }
+        .glow-effect {
+            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+        }
+        .modal-active {
+            display: flex !important;
+        }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col justify-between">
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-gray-950">
 
     <!-- Header / Navbar -->
-    <header class="border-b border-gray-800 bg-gray-900/80 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-gray-800/80 bg-gray-950/80 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
             <!-- Logo -->
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-brand-500/20 border border-brand-500 flex items-center justify-center text-brand-500 font-black text-xl">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-400 border border-brand-400/50 flex items-center justify-center text-gray-950 font-black text-xl shadow-lg shadow-brand-500/20 group-hover:scale-105 transition">
                     DZ
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-white tracking-wide">Dz<span class="text-brand-500">Builds</span></h1>
-                    <p class="text-xs text-gray-400">دليل التجميعات في الجزائر</p>
+                    <h1 class="text-2xl font-black text-white tracking-wide">Dz<span class="text-brand-500">Builds</span></h1>
+                    <p class="text-[10px] text-gray-400 font-semibold -mt-1">دليل التجميعات الأول في الجزائر</p>
                 </div>
-            </div>
+            </a>
 
             <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-300">
-                <a href="#ready-builds" class="hover:text-brand-500 transition">تجميعات جاهزة</a>
-                <a href="#builder" class="hover:text-brand-500 transition">صانع التجميعات</a>
-                <a href="#stores" class="hover:text-brand-500 transition">المحلات الشريكة</a>
-                <a href="#advertise" class="hover:text-brand-500 transition">أعلن معنا</a>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-gray-300">
+                <a href="#ready-builds" class="hover:text-brand-400 transition">تجميعات جاهزة</a>
+                <a href="#builder" class="hover:text-brand-400 transition">صانع التجميعات</a>
+                <a href="#stores" class="hover:text-brand-400 transition">المحلات الشريكة</a>
+                <a href="#advertise" class="hover:text-brand-400 transition">أعلن معنا</a>
             </nav>
 
-            <!-- Action Button -->
-            <a href="#advertise" class="bg-brand-500 hover:bg-brand-600 text-gray-950 font-bold px-4 py-2 rounded-xl transition text-sm flex items-center gap-2">
-                <i class="fas fa-bullhorn"></i> أعلن في DzBuilds
-            </a>
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <!-- Login Button -->
+                <button onclick="openAuthModal()" class="bg-gray-900 border border-gray-700 hover:border-brand-500 text-gray-200 hover:text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                    <i class="fas fa-user-circle text-brand-500 text-base"></i>
+                    <span>تسجيل الدخول</span>
+                </button>
+
+                <!-- Advertise Button -->
+                <a href="#advertise" class="hidden sm:flex bg-brand-500 hover:bg-brand-600 text-gray-950 font-extrabold px-4 py-2.5 rounded-xl transition text-xs items-center gap-2 shadow-lg shadow-brand-500/20">
+                    <i class="fas fa-bullhorn"></i> أعلن معنا
+                </a>
+            </div>
         </div>
     </header>
 
-    <!-- Top Banner Ad (مساحة إعلانية علوية) -->
+    <!-- Top Banner Ad (مساحة إعلانية) -->
     <div class="max-w-7xl mx-auto px-4 pt-6 w-full">
-        <div class="bg-gray-900 border border-dashed border-gray-700 hover:border-brand-500 rounded-2xl p-4 text-center flex items-center justify-between gap-4 transition group cursor-pointer">
+        <div class="bg-gradient-to-r from-gray-900 via-gray-900 to-gray-950 border border-gray-800 hover:border-brand-500/50 rounded-2xl p-4 text-center flex flex-col sm:flex-row items-center justify-between gap-4 transition group cursor-pointer shadow-lg">
             <div class="flex items-center gap-3">
-                <span class="bg-brand-500/10 border border-brand-500/30 text-brand-500 text-xs font-bold px-2 py-1 rounded">إعلان مميز</span>
-                <p class="text-sm text-gray-300">ضع بنر إعلاني لمتجر الكمبيوتر الخاص بك في أعلى الصفحة الرئيسية!</p>
+                <span class="bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-bold px-2.5 py-1 rounded-md animate-pulse">رعاية مميزة</span>
+                <p class="text-sm text-gray-300 font-semibold">هل تملك متجر عتاد كمبيوتر؟ احجز بنر إعلاني لمتجرك في أعلى الموقع!</p>
             </div>
-            <a href="#advertise" class="text-xs font-bold text-brand-500 hover:underline">حجز المساحة الإعلانية ←</a>
+            <a href="#advertise" class="text-xs font-extrabold text-brand-400 hover:underline flex items-center gap-1">
+                تواصل معنا لحجز المساحة <i class="fas fa-arrow-left text-[10px]"></i>
+            </a>
         </div>
     </div>
 
-    <!-- Ready Builds Section (قسم التجميعات الجاهزة) -->
+    <!-- Ready Builds Section -->
     <section id="ready-builds" class="max-w-7xl mx-auto px-4 py-12 w-full">
-        <div class="text-center mb-10">
-            <span class="bg-brand-500/10 border border-brand-500/30 text-brand-500 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-3">
-                تجميعات مقترحة
+        <div class="text-center mb-12">
+            <span class="bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block mb-3">
+                تجميعات مقترحة وجاهزة
             </span>
-            <h2 class="text-3xl font-extrabold text-white">تجميعات الجيمينج حسب الميزانية</h2>
-            <p class="text-gray-400 text-sm mt-2">تجميعات متناسقة ومجربة تناسب مختلف الفئات والميزانيات في الجزائر</p>
+            <h2 class="text-3xl md:text-4xl font-black text-white">تجميعات الجيمينج حسب الميزانية</h2>
+            <p class="text-gray-400 text-sm mt-2 max-w-xl mx-auto">اختر من بين أحدث التجميعات المتوازنة المجربة بأسعار السوق الجزائري الحالي</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             <!-- Build 1: Budget -->
-            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-brand-500/50 transition flex flex-col justify-between">
+            <div class="bg-gray-900/90 border border-gray-800 rounded-3xl overflow-hidden hover:border-brand-500/50 transition flex flex-col justify-between group shadow-xl hover:shadow-2xl">
                 <div>
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="bg-blue-500/10 text-blue-400 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/30">اقتصادية</span>
-                        <span class="text-xs text-gray-400">1080p Gaming</span>
+                    <!-- Image -->
+                    <div class="relative h-52 overflow-hidden bg-gray-950">
+                        <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=80" alt="Budget PC" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <span class="absolute top-4 right-4 bg-blue-500/20 backdrop-blur-md border border-blue-500/40 text-blue-300 text-xs font-bold px-3 py-1 rounded-full">اقتصادية</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">تجميعة المبتدئين (i3 12th + GTX 1650)</h3>
-                    <div class="my-4 p-3 bg-gray-950 rounded-xl border border-gray-800">
-                        <div class="text-2xl font-black text-brand-500">65,000 د.ج</div>
-                        <div class="text-xs text-gray-400">6 ملايين و 500 ألف سنتيم</div>
+
+                    <!-- Details -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">تجميعة المبتدئين (i3 + GTX 1650)</h3>
+                        <div class="my-4 p-3.5 bg-gray-950/80 rounded-2xl border border-gray-800/80">
+                            <div class="text-2xl font-black text-brand-400">65,000 د.ج</div>
+                            <div class="text-xs text-gray-400 font-semibold">6 ملايين و 500 ألف سنتيم</div>
+                        </div>
+                        <ul class="text-xs text-gray-300 space-y-2.5">
+                            <li class="flex items-center gap-2"><i class="fas fa-microchip text-brand-500 w-4"></i><span><strong>المعالج:</strong> Intel Core i3-12100F</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-tv text-brand-500 w-4"></i><span><strong>كرت الشاشة:</strong> GTX 1650 4GB</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-memory text-brand-500 w-4"></i><span><strong>الرام:</strong> 16GB DDR4 3200MHz</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-hdd text-brand-500 w-4"></i><span><strong>التخزين:</strong> 512GB NVMe SSD</span></li>
+                        </ul>
                     </div>
-                    <ul class="text-xs text-gray-300 space-y-2 mb-6">
-                        <li><i class="fas fa-microchip text-brand-500 ml-2"></i><strong>المعالج:</strong> Intel Core i3-12100F</li>
-                        <li><i class="fas fa-tv text-brand-500 ml-2"></i><strong>كرت الشاشة:</strong> GTX 1650 4GB</li>
-                        <li><i class="fas fa-memory text-brand-500 ml-2"></i><strong>الرام:</strong> 16GB DDR4 3200MHz</li>
-                        <li><i class="fas fa-hdd text-brand-500 ml-2"></i><strong>التخزين:</strong> 512GB NVMe SSD</li>
-                    </ul>
                 </div>
-                <div class="border-t border-gray-800 pt-4 flex justify-between items-center text-xs">
-                    <span class="text-gray-400">Valorant: <strong class="text-white">160+ FPS</strong></span>
-                    <span class="text-gray-400">Minecraft: <strong class="text-white">200+ FPS</strong></span>
+
+                <div class="p-6 pt-0 border-t border-gray-800/60 mt-4">
+                    <div class="flex justify-between items-center text-xs py-3 text-gray-400">
+                        <span>Valorant: <strong class="text-white">160+ FPS</strong></span>
+                        <span>Minecraft: <strong class="text-white">200+ FPS</strong></span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Build 2: Mid-Range -->
-            <div class="bg-gray-900 border-2 border-brand-500/80 rounded-2xl p-6 relative flex flex-col justify-between shadow-lg shadow-brand-500/10">
-                <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-500 text-gray-950 font-bold text-[10px] px-3 py-0.5 rounded-full uppercase">الأكثر طلباً</span>
+            <!-- Build 2: Mid-Range (Highlighted) -->
+            <div class="bg-gray-900 border-2 border-brand-500/80 rounded-3xl overflow-hidden flex flex-col justify-between group shadow-2xl glow-effect relative">
+                <span class="absolute top-0 left-1/2 -translate-x-1/2 bg-brand-500 text-gray-950 font-black text-[11px] px-4 py-1 rounded-b-xl uppercase tracking-wider z-10">الأكثر طلباً ومبيعاً</span>
                 <div>
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="bg-brand-500/10 text-brand-500 text-xs font-bold px-3 py-1 rounded-full border border-brand-500/30">متوسطة متوازنة</span>
-                        <span class="text-xs text-gray-400">1080p High / 2K</span>
+                    <!-- Image -->
+                    <div class="relative h-52 overflow-hidden bg-gray-950">
+                        <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=800&q=80" alt="Mid PC" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <span class="absolute top-4 right-4 bg-brand-500/20 backdrop-blur-md border border-brand-500/40 text-brand-400 text-xs font-bold px-3 py-1 rounded-full">متوسطة متوازنة</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">تجميعة القوة (i5 12th + RTX 3060)</h3>
-                    <div class="my-4 p-3 bg-gray-950 rounded-xl border border-gray-800">
-                        <div class="text-2xl font-black text-brand-500">115,000 د.ج</div>
-                        <div class="text-xs text-gray-400">11 مليون و 500 ألف سنتيم</div>
+
+                    <!-- Details -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">تجميعة القوة (i5 + RTX 3060)</h3>
+                        <div class="my-4 p-3.5 bg-gray-950/80 rounded-2xl border border-gray-800">
+                            <div class="text-2xl font-black text-brand-400">115,000 د.ج</div>
+                            <div class="text-xs text-gray-400 font-semibold">11 مليون و 500 ألف سنتيم</div>
+                        </div>
+                        <ul class="text-xs text-gray-300 space-y-2.5">
+                            <li class="flex items-center gap-2"><i class="fas fa-microchip text-brand-500 w-4"></i><span><strong>المعالج:</strong> Intel Core i5-12400F</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-tv text-brand-500 w-4"></i><span><strong>كرت الشاشة:</strong> RTX 3060 12GB</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-memory text-brand-500 w-4"></i><span><strong>الرام:</strong> 16GB DDR4 3200MHz</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-hdd text-brand-500 w-4"></i><span><strong>التخزين:</strong> 1TB NVMe M.2 SSD</span></li>
+                        </ul>
                     </div>
-                    <ul class="text-xs text-gray-300 space-y-2 mb-6">
-                        <li><i class="fas fa-microchip text-brand-500 ml-2"></i><strong>المعالج:</strong> Intel Core i5-12400F</li>
-                        <li><i class="fas fa-tv text-brand-500 ml-2"></i><strong>كرت الشاشة:</strong> RTX 3060 12GB</li>
-                        <li><i class="fas fa-memory text-brand-500 ml-2"></i><strong>الرام:</strong> 16GB DDR4 3200MHz</li>
-                        <li><i class="fas fa-hdd text-brand-500 ml-2"></i><strong>التخزين:</strong> 1TB NVMe M.2 SSD</li>
-                    </ul>
                 </div>
-                <div class="border-t border-gray-800 pt-4 flex justify-between items-center text-xs">
-                    <span class="text-gray-400">Fortnite: <strong class="text-white">140+ FPS</strong></span>
-                    <span class="text-gray-400">GTA V: <strong class="text-white">100+ FPS</strong></span>
+
+                <div class="p-6 pt-0 border-t border-gray-800/60 mt-4">
+                    <div class="flex justify-between items-center text-xs py-3 text-gray-400">
+                        <span>Fortnite: <strong class="text-white">140+ FPS</strong></span>
+                        <span>GTA V: <strong class="text-white">100+ FPS</strong></span>
+                    </div>
                 </div>
             </div>
 
             <!-- Build 3: High-End -->
-            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-brand-500/50 transition flex flex-col justify-between">
+            <div class="bg-gray-900/90 border border-gray-800 rounded-3xl overflow-hidden hover:border-brand-500/50 transition flex flex-col justify-between group shadow-xl hover:shadow-2xl">
                 <div>
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="bg-purple-500/10 text-purple-400 text-xs font-bold px-3 py-1 rounded-full border border-purple-500/30">احترافية</span>
-                        <span class="text-xs text-gray-400">2K Ultra Gaming</span>
+                    <!-- Image -->
+                    <div class="relative h-52 overflow-hidden bg-gray-950">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="High End PC" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <span class="absolute top-4 right-4 bg-purple-500/20 backdrop-blur-md border border-purple-500/40 text-purple-300 text-xs font-bold px-3 py-1 rounded-full">احترافية 2K</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">تجميعة الأداء العالي (Ryzen 5 + RTX 4070)</h3>
-                    <div class="my-4 p-3 bg-gray-950 rounded-xl border border-gray-800">
-                        <div class="text-2xl font-black text-brand-500">210,000 د.ج</div>
-                        <div class="text-xs text-gray-400">21 مليون سنتيم</div>
+
+                    <!-- Details -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">تجميعة الأداء العالي (Ryzen 5 + RTX 4070)</h3>
+                        <div class="my-4 p-3.5 bg-gray-950/80 rounded-2xl border border-gray-800/80">
+                            <div class="text-2xl font-black text-brand-400">210,000 د.ج</div>
+                            <div class="text-xs text-gray-400 font-semibold">21 مليون سنتيم</div>
+                        </div>
+                        <ul class="text-xs text-gray-300 space-y-2.5">
+                            <li class="flex items-center gap-2"><i class="fas fa-microchip text-brand-500 w-4"></i><span><strong>المعالج:</strong> AMD Ryzen 5 7600X</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-tv text-brand-500 w-4"></i><span><strong>كرت الشاشة:</strong> RTX 4070 12GB DDR6X</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-memory text-brand-500 w-4"></i><span><strong>الرام:</strong> 32GB DDR5 6000MHz</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-hdd text-brand-500 w-4"></i><span><strong>التخزين:</strong> 1TB Gen4 NVMe SSD</span></li>
+                        </ul>
                     </div>
-                    <ul class="text-xs text-gray-300 space-y-2 mb-6">
-                        <li><i class="fas fa-microchip text-brand-500 ml-2"></i><strong>المعالج:</strong> AMD Ryzen 5 7600X</li>
-                        <li><i class="fas fa-tv text-brand-500 ml-2"></i><strong>كرت الشاشة:</strong> RTX 4070 12GB DDR6X</li>
-                        <li><i class="fas fa-memory text-brand-500 ml-2"></i><strong>الرام:</strong> 32GB DDR5 6000MHz</li>
-                        <li><i class="fas fa-hdd text-brand-500 ml-2"></i><strong>التخزين:</strong> 1TB Gen4 NVMe SSD</li>
-                    </ul>
                 </div>
-                <div class="border-t border-gray-800 pt-4 flex justify-between items-center text-xs">
-                    <span class="text-gray-400">Cyberpunk: <strong class="text-white">90+ FPS</strong></span>
-                    <span class="text-gray-400">Warzone: <strong class="text-white">150+ FPS</strong></span>
+
+                <div class="p-6 pt-0 border-t border-gray-800/60 mt-4">
+                    <div class="flex justify-between items-center text-xs py-3 text-gray-400">
+                        <span>Cyberpunk: <strong class="text-white">90+ FPS</strong></span>
+                        <span>Warzone: <strong class="text-white">150+ FPS</strong></span>
+                    </div>
                 </div>
             </div>
 
@@ -164,13 +210,13 @@
     </section>
 
     <!-- Builder Section -->
-    <section id="builder" class="max-w-7xl mx-auto px-4 py-8 w-full border-t border-gray-800">
-        <div class="text-center mb-8">
-            <span class="bg-brand-500/10 border border-brand-500/30 text-brand-500 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-3">
-                أداة حصرية
+    <section id="builder" class="max-w-7xl mx-auto px-4 py-12 w-full border-t border-gray-800/80">
+        <div class="text-center mb-10">
+            <span class="bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block mb-3">
+                أداة DzBuilds التفاعلية
             </span>
-            <h2 class="text-3xl font-extrabold text-white">صانع التجميعات المخصص <span class="text-brand-500">(Builder)</span></h2>
-            <p class="text-gray-400 text-sm mt-1">اختر الأجزاء بنفسك واطلع على حساب السعر الفوري بالدينار والفرنك/السنتيم</p>
+            <h2 class="text-3xl font-black text-white">صانع التجميعات المخصص <span class="text-brand-500">(PC Builder)</span></h2>
+            <p class="text-gray-400 text-sm mt-1">اختر أجزائك المفضلة واحسب السعر التقديري بالدينار والفرنك في الوقت الفعلي</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -179,11 +225,11 @@
             <div class="lg:col-span-2 space-y-4">
                 
                 <!-- CPU -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <label class="font-bold text-white min-w-[140px] flex items-center gap-2">
-                        <i class="fas fa-microchip text-brand-500"></i> المعالج (CPU)
+                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
+                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
+                        <i class="fas fa-microchip text-brand-500 text-lg"></i> المعالج (CPU)
                     </label>
-                    <select id="cpu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none">
+                    <select id="cpu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
                         <option value="0" data-fps="0">اختر المعالج...</option>
                         <option value="18000" data-fps="60">Intel Core i3-12100F — 18,000 د.ج</option>
                         <option value="28000" data-fps="100">Intel Core i5-12400F — 28,000 د.ج</option>
@@ -193,11 +239,11 @@
                 </div>
 
                 <!-- GPU -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <label class="font-bold text-white min-w-[140px] flex items-center gap-2">
-                        <i class="fas fa-tv text-brand-500"></i> كارت الشاشة (GPU)
+                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
+                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
+                        <i class="fas fa-tv text-brand-500 text-lg"></i> كارت الشاشة (GPU)
                     </label>
-                    <select id="gpu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none">
+                    <select id="gpu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
                         <option value="0" data-fps="0">اختر كارت الشاشة...</option>
                         <option value="35000" data-fps="50">NVIDIA GTX 1650 4GB — 35,000 د.ج</option>
                         <option value="52000" data-fps="90">NVIDIA RTX 3060 12GB — 52,000 د.ج</option>
@@ -207,11 +253,11 @@
                 </div>
 
                 <!-- RAM -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <label class="font-bold text-white min-w-[140px] flex items-center gap-2">
-                        <i class="fas fa-memory text-brand-500"></i> الذاكرة (RAM)
+                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
+                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
+                        <i class="fas fa-memory text-brand-500 text-lg"></i> الذاكرة (RAM)
                     </label>
-                    <select id="ram" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none">
+                    <select id="ram" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
                         <option value="0">اختر الرام...</option>
                         <option value="8000">16GB (2x8GB) DDR4 3200MHz — 8,000 د.ج</option>
                         <option value="16000">32GB (2x16GB) DDR4 3200MHz — 16,000 د.ج</option>
@@ -220,11 +266,11 @@
                 </div>
 
                 <!-- Motherboard -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <label class="font-bold text-white min-w-[140px] flex items-center gap-2">
-                        <i class="fas fa-chess-board text-brand-500"></i> اللوحة الأم
+                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
+                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
+                        <i class="fas fa-chess-board text-brand-500 text-lg"></i> اللوحة الأم
                     </label>
-                    <select id="mobo" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none">
+                    <select id="mobo" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
                         <option value="0">اختر اللوحة الأم...</option>
                         <option value="16000">H610M DDR4 — 16,000 د.ج</option>
                         <option value="24000">B660M / B760M DDR4 — 24,000 د.ج</option>
@@ -233,11 +279,11 @@
                 </div>
 
                 <!-- Storage -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <label class="font-bold text-white min-w-[140px] flex items-center gap-2">
-                        <i class="fas fa-hdd text-brand-500"></i> التخزين (SSD)
+                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
+                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
+                        <i class="fas fa-hdd text-brand-500 text-lg"></i> التخزين (SSD)
                     </label>
-                    <select id="storage" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none">
+                    <select id="storage" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
                         <option value="0">اختر مساحة التخزين...</option>
                         <option value="7500">512GB NVMe M.2 SSD — 7,500 د.ج</option>
                         <option value="12500">1TB NVMe M.2 SSD — 12,500 د.ج</option>
@@ -246,11 +292,11 @@
                 </div>
 
                 <!-- PSU & Case -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <label class="font-bold text-white min-w-[140px] flex items-center gap-2">
-                        <i class="fas fa-plug text-brand-500"></i> التغذية والهيكل
+                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
+                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
+                        <i class="fas fa-plug text-brand-500 text-lg"></i> التغذية والهيكل
                     </label>
-                    <select id="psu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none">
+                    <select id="psu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
                         <option value="0">اختر العلبة ومزود الطاقة...</option>
                         <option value="14000">Case Standard + 500W PSU 80+ — 14,000 د.ج</option>
                         <option value="22000">Gaming ARGB Case + 650W PSU 80+ Bronze — 22,000 د.ج</option>
@@ -260,46 +306,47 @@
 
             </div>
 
-            <!-- Right Side: Summary Card (1 Column) -->
+            <!-- Right Side: Summary Card -->
             <div class="lg:col-span-1">
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 sticky top-28 space-y-6">
+                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 sticky top-28 space-y-6 shadow-2xl">
                     <div class="flex items-center justify-between border-b border-gray-800 pb-4">
                         <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                            <i class="fas fa-calculator text-brand-500"></i> ملخص التجميعة
+                            <i class="fas fa-calculator text-brand-500"></i> ملخص السعر
                         </h3>
-                        <button onclick="resetBuilder()" class="text-xs text-gray-400 hover:text-white transition">إعادة ضبط</button>
+                        <button onclick="resetBuilder()" class="text-xs text-gray-400 hover:text-red-400 transition flex items-center gap-1 font-semibold">
+                            <i class="fas fa-rotate-left"></i> تفريغ
+                        </button>
                     </div>
 
                     <!-- Price Box -->
-                    <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 text-center">
-                        <span class="text-xs text-gray-400 font-semibold uppercase">المجموع الكلي المقدر</span>
-                        <div id="total-dzd" class="text-3xl font-extrabold text-brand-500 my-1">0 د.ج</div>
-                        <div id="total-centime" class="text-xs text-gray-400">0 ملايين سنتيم</div>
+                    <div class="bg-gray-950 border border-gray-800/80 rounded-2xl p-5 text-center">
+                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">السعر التقديري الإجمالي</span>
+                        <div id="total-dzd" class="text-3xl font-black text-brand-400 my-1">0 د.ج</div>
+                        <div id="total-centime" class="text-xs text-gray-400 font-semibold">0 ملايين سنتيم</div>
                     </div>
 
                     <!-- Compatibility -->
-                    <div class="bg-gray-950/50 border border-gray-800 rounded-xl p-3 flex items-center gap-3">
-                        <i class="fas fa-check-circle text-brand-500 text-xl"></i>
-                        <span class="text-xs text-gray-300">حالة التوافقية ممتازة بين القطع المختارة.</span>
+                    <div class="bg-brand-500/10 border border-brand-500/20 rounded-xl p-3 flex items-center gap-3">
+                        <i class="fas fa-check-circle text-brand-400 text-xl"></i>
+                        <span class="text-xs text-gray-300 font-medium">حالة التوافق ممتازة بين جميع الأجزاء المختارة.</span>
                     </div>
 
                     <!-- FPS Estimator -->
                     <div class="space-y-3 pt-2">
-                        <h4 class="text-xs font-bold text-gray-400 uppercase">تقدير أداء الألعاب (1080p)</h4>
-                        
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-300">Valorant / CS2</span>
-                            <span id="fps-cs" class="font-bold text-brand-500">-- FPS</span>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">الأداء المتوقع في الألعاب (1080p)</h4>
+                        <div class="flex justify-between items-center text-sm p-2 bg-gray-950/50 rounded-xl">
+                            <span class="text-gray-300 text-xs font-semibold">Valorant / CS2</span>
+                            <span id="fps-cs" class="font-extrabold text-brand-400 text-xs">-- FPS</span>
                         </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-300">Fortnite</span>
-                            <span id="fps-fn" class="font-bold text-brand-500">-- FPS</span>
+                        <div class="flex justify-between items-center text-sm p-2 bg-gray-950/50 rounded-xl">
+                            <span class="text-gray-300 text-xs font-semibold">Fortnite</span>
+                            <span id="fps-fn" class="font-extrabold text-brand-400 text-xs">-- FPS</span>
                         </div>
                     </div>
 
                     <!-- Action Button -->
-                    <button onclick="alert('تم حفظ التجميعة في ذاكرة متصفحك!')" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 text-sm">
-                        <i class="fas fa-save"></i> حفظ هذه التجميعة
+                    <button onclick="alert('تم حفظ كشف التجميعة بنجاح!')" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-brand-500/20">
+                        <i class="fas fa-bookmark"></i> حفظ التجميعة
                     </button>
                 </div>
             </div>
@@ -307,71 +354,151 @@
         </div>
     </section>
 
-    <!-- Ad / Stores Section (قسم المتاجر والرعاة الإعلانيين) -->
-    <section id="stores" class="max-w-7xl mx-auto px-4 py-12 w-full border-t border-gray-800 mt-12">
+    <!-- Stores Section -->
+    <section id="stores" class="max-w-7xl mx-auto px-4 py-12 w-full border-t border-gray-800">
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <div>
-                <h3 class="text-2xl font-bold text-white">المحلات الشريكة ومساحات العرض</h3>
-                <p class="text-xs text-gray-400">تصفح أفضل محلات ومتاجر العتاد في الجزائر</p>
+                <h3 class="text-2xl font-bold text-white">المحلات الشريكة والمساحات الإعلانية</h3>
+                <p class="text-xs text-gray-400 mt-1">تصفح أشهر المتاجر الشريكة في الولايات</p>
             </div>
-            <a href="#advertise" class="text-xs bg-gray-900 border border-gray-700 hover:border-brand-500 px-4 py-2 rounded-xl text-gray-300 transition">
-                + انضم كمحل معتمد
+            <a href="#advertise" class="text-xs bg-gray-900 border border-gray-700 hover:border-brand-500 px-4 py-2.5 rounded-xl text-gray-200 transition font-bold">
+                + أضف محلك معنا
             </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Ad Box 1 -->
-            <div id="advertise" class="bg-gray-900 border border-dashed border-gray-700 hover:border-brand-500 rounded-2xl p-6 text-center flex flex-col items-center justify-center min-h-[180px] transition group">
-                <i class="fas fa-store-slash text-3xl text-gray-600 group-hover:text-brand-500 mb-2"></i>
-                <h4 class="font-bold text-white">مساحة إعلانية شاغرة</h4>
-                <p class="text-xs text-gray-400 mt-1">هل تملك محل كمبيوتر؟ ضع اسم محلك ورابطك هنا</p>
+            <div id="advertise" class="bg-gray-900/50 border border-dashed border-gray-700 hover:border-brand-500 rounded-3xl p-8 text-center flex flex-col items-center justify-center min-h-[200px] transition group cursor-pointer">
+                <div class="w-12 h-12 rounded-2xl bg-gray-800 flex items-center justify-center text-gray-500 group-hover:text-brand-400 group-hover:scale-110 transition mb-3">
+                    <i class="fas fa-store text-xl"></i>
+                </div>
+                <h4 class="font-bold text-white text-sm">مساحة إعلانية لمتجرك</h4>
+                <p class="text-xs text-gray-400 mt-1">ضع شعار ورابط متجرك ليصل إلى آلاف الزوار يومياً</p>
             </div>
-            <!-- Ad Box 2 -->
-            <div class="bg-gray-900 border border-dashed border-gray-700 hover:border-brand-500 rounded-2xl p-6 text-center flex flex-col items-center justify-center min-h-[180px] transition group">
-                <i class="fas fa-bullhorn text-3xl text-gray-600 group-hover:text-brand-500 mb-2"></i>
-                <h4 class="font-bold text-white">مساحة رعاة التجميعات</h4>
-                <p class="text-xs text-gray-400 mt-1">وصل عروضك إلى آلاف الجيمرز المهتمين يومياً</p>
+            <div class="bg-gray-900/50 border border-dashed border-gray-700 hover:border-brand-500 rounded-3xl p-8 text-center flex flex-col items-center justify-center min-h-[200px] transition group cursor-pointer">
+                <div class="w-12 h-12 rounded-2xl bg-gray-800 flex items-center justify-center text-gray-500 group-hover:text-brand-400 group-hover:scale-110 transition mb-3">
+                    <i class="fas fa-bullhorn text-xl"></i>
+                </div>
+                <h4 class="font-bold text-white text-sm">رعاية التجميعات المقترحة</h4>
+                <p class="text-xs text-gray-400 mt-1">عرض عتادك وأسعارك في قائمة التجميعات الجاهزة</p>
             </div>
-            <!-- Ad Box 3 -->
-            <div class="bg-gray-900 border border-dashed border-gray-700 hover:border-brand-500 rounded-2xl p-6 text-center flex flex-col items-center justify-center min-h-[180px] transition group">
-                <i class="fas fa-tags text-3xl text-gray-600 group-hover:text-brand-500 mb-2"></i>
-                <h4 class="font-bold text-white">عروض وتخفيضات المحلات</h4>
-                <p class="text-xs text-gray-400 mt-1">تواصل معنا عبر شبكات التواصل لإضافة محلك</p>
+            <div class="bg-gray-900/50 border border-dashed border-gray-700 hover:border-brand-500 rounded-3xl p-8 text-center flex flex-col items-center justify-center min-h-[200px] transition group cursor-pointer">
+                <div class="w-12 h-12 rounded-2xl bg-gray-800 flex items-center justify-center text-gray-500 group-hover:text-brand-400 group-hover:scale-110 transition mb-3">
+                    <i class="fas fa-tags text-xl"></i>
+                </div>
+                <h4 class="font-bold text-white text-sm">عروض وتخفيضات العتاد</h4>
+                <p class="text-xs text-gray-400 mt-1">تواصل معنا لإضافة تخفيضاتك في الصفحة الرئيسية</p>
             </div>
         </div>
     </section>
 
-    <!-- Footer with Social Media Links -->
-    <footer class="bg-gray-900 border-t border-gray-800 py-10 mt-12">
+    <!-- Footer -->
+    <footer class="bg-gray-900/80 border-t border-gray-800 py-10 mt-12">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
             
-            <!-- Social Buttons -->
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-xl bg-brand-500/20 border border-brand-500/40 flex items-center justify-center text-brand-400 font-bold text-xs">DZ</div>
+                <span class="text-sm font-bold text-white">Dz<span class="text-brand-500">Builds</span> — جميع الحقوق محفوظة © 2026</span>
+            </div>
+
+            <!-- Social Media Icons (TikTok & Instagram ONLY) -->
             <div class="flex items-center gap-4">
                 <!-- Instagram -->
-                <a href="https://www.instagram.com/dz_builds/?hl=ar" target="_blank" title="Instagram" class="w-10 h-10 rounded-xl bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition">
+                <a href="https://www.instagram.com/dz_builds/?hl=ar" target="_blank" rel="noopener noreferrer" title="Instagram" class="w-10 h-10 rounded-2xl bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-400 hover:border-brand-400 transition shadow-md">
                     <i class="fab fa-instagram text-lg"></i>
                 </a>
 
                 <!-- TikTok -->
-                <a href="https://www.tiktok.com/@moatezch11" target="_blank" title="TikTok" class="w-10 h-10 rounded-xl bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition">
+                <a href="https://www.tiktok.com/@moatezch11" target="_blank" rel="noopener noreferrer" title="TikTok" class="w-10 h-10 rounded-2xl bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-400 hover:border-brand-400 transition shadow-md">
                     <i class="fab fa-tiktok text-lg"></i>
-                </a>
-
-                <!-- Discord -->
-                <a href="https://discord.gg" target="_blank" title="Discord" class="w-10 h-10 rounded-xl bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition">
-                    <i class="fab fa-discord text-lg"></i>
                 </a>
             </div>
 
-            <!-- Rights Text -->
-            <p class="text-gray-400 text-sm font-semibold">
-                جميع الحقوق محفوظة © <span class="text-white">DzBuilds</span> 2026
-            </p>
         </div>
     </footer>
 
-    <!-- JavaScript Calculation Script -->
+    <!-- Auth Modal (نافذة تسجيل الدخول/إنشاء حساب) -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 border border-gray-800 rounded-3xl w-full max-w-md p-6 relative shadow-2xl">
+            <!-- Close Button -->
+            <button onclick="closeAuthModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Modal Header Tabs -->
+            <div class="flex border-b border-gray-800 mb-6">
+                <button id="tab-login" onclick="switchTab('login')" class="flex-1 pb-3 text-sm font-bold border-b-2 border-brand-500 text-brand-400">
+                    تسجيل الدخول
+                </button>
+                <button id="tab-register" onclick="switchTab('register')" class="flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200">
+                    إنشاء حساب جديد
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="form-login" onsubmit="event.preventDefault(); alert('تم تسجيل الدخول بنجاح!'); closeAuthModal();" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">البريد الإلكتروني</label>
+                    <input type="email" placeholder="example@mail.com" required class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">كلمة السر</label>
+                    <input type="password" placeholder="••••••••" required class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-3 rounded-xl text-xs transition shadow-lg shadow-brand-500/20">
+                    دخول
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="form-register" onsubmit="event.preventDefault(); alert('تم إنشاء الحساب بنجاح!'); closeAuthModal();" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">الاسم الكامل</label>
+                    <input type="text" placeholder="محمد بلقاسم" required class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">البريد الإلكتروني</label>
+                    <input type="email" placeholder="example@mail.com" required class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">كلمة السر</label>
+                    <input type="password" placeholder="••••••••" required class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-3 rounded-xl text-xs transition shadow-lg shadow-brand-500/20">
+                    إنشاء حساب
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script>
+        // Modal logic
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.add('modal-active');
+        }
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.remove('modal-active');
+        }
+        function switchTab(tab) {
+            const loginForm = document.getElementById('form-login');
+            const registerForm = document.getElementById('form-register');
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+
+            if(tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                tabLogin.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-brand-500 text-brand-400";
+                tabRegister.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200";
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                tabRegister.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-brand-500 text-brand-400";
+                tabLogin.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200";
+            }
+        }
+
+        // Calculation Logic
         function calculateTotal() {
             const cpu = document.getElementById('cpu');
             const gpu = document.getElementById('gpu');
@@ -383,13 +510,10 @@
             const total = parseInt(cpu.value) + parseInt(gpu.value) + parseInt(ram.value) + 
                           parseInt(mobo.value) + parseInt(storage.value) + parseInt(psu.value);
 
-            // Display Price
             document.getElementById('total-dzd').innerText = total.toLocaleString() + ' د.ج';
-            
             const centimes = (total / 10000).toFixed(1);
             document.getElementById('total-centime').innerText = centimes + ' ملايين سنتيم';
 
-            // Calculate Estimated FPS
             const cpuFps = parseInt(cpu.options[cpu.selectedIndex].getAttribute('data-fps') || 0);
             const gpuFps = parseInt(gpu.options[gpu.selectedIndex].getAttribute('data-fps') || 0);
 
