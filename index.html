@@ -1,585 +1,591 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="scroll-smooth">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DzBuilds | دليل وسوق تجميعات الكمبيوتر في الجزائر</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <title>DzBuilds | المنصة الجزائرية الأولى لتجميعات وهاردوير الكمبيوتر</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { cairo: ['Cairo', 'sans-serif'] },
-                    colors: {
-                        brand: {
-                            400: '#34d399',
-                            500: '#10b981',
-                            600: '#059669',
-                            700: '#047857',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    
     <style>
-        body { font-family: 'Cairo', sans-serif; }
-        .glow-effect {
-            box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.35);
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent-green: #22c55e;
+            --accent-blue: #3b82f6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --badge-used: #eab308;
         }
-        .glow-purple {
-            box-shadow: 0 0 30px -5px rgba(168, 85, 247, 0.35);
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
         }
-        .bg-grid-pattern {
-            background-image: radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 1px);
-            background-size: 28px 28px;
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        body.locked {
-            overflow: hidden !important;
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span { color: var(--text-main); }
+
+        .nav-links {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary { background-color: var(--accent-green); color: #000; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-secondary { background-color: transparent; color: var(--text-main); border: 1px solid var(--border-color); }
+        .btn-secondary:hover, .btn-secondary.active { background-color: var(--border-color); border-color: var(--accent-green); }
+
+        /* Top Ad Banner */
+        .top-ad-banner {
+            max-width: 1280px;
+            margin: 1rem auto 0;
+            padding: 0 1rem;
+            width: 100%;
+        }
+
+        .ad-box-top {
+            background: linear-gradient(90deg, #1e1b4b, #311b92);
+            border: 1px dashed #6366f1;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Layout Grid */
+        .container {
+            max-width: 1280px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .main-content { min-width: 0; }
+        .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        .sidebar-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .sidebar-card img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 0.8rem 0;
+        }
+
+        /* View Switching */
+        .section-view { display: none; }
+        .section-view.active { display: block; }
+
+        /* PC Builder Styles */
+        .builder-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .component-info h4 { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.3rem; }
+        .component-info p { font-size: 1.05rem; font-weight: 700; }
+
+        .builder-actions { display: flex; align-items: center; gap: 0.8rem; }
+
+        .builder-select {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.61rem 1rem;
+            border-radius: 6px;
+            min-width: 230px;
+            outline: none;
+        }
+
+        .total-box {
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .total-price { font-size: 1.8rem; font-weight: 800; color: var(--accent-green); }
+
+        /* Market Cards */
+        .market-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.3rem;
+            background-color: var(--bg-secondary);
+            padding: 0.3rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            padding: 0.4rem 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .tab-btn.active { background-color: var(--accent-green); color: #000; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover { transform: translateY(-4px); }
+
+        .card-img { width: 100%; height: 160px; object-fit: cover; }
+        .card-body { padding: 1rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .badge { padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; align-self: flex-start; margin-bottom: 0.5rem; }
+        .badge-new { background-color: rgba(34, 197, 94, 0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .badge-used { background-color: rgba(234, 179, 8, 0.2); color: var(--badge-used); border: 1px solid var(--badge-used); }
+        .card-price { font-size: 1.2rem; font-weight: 800; color: var(--accent-green); margin-top: auto; padding-top: 0.5rem; }
+
+        /* Login & Modal */
+        .login-box {
+            background-color: var(--bg-secondary);
+            max-width: 420px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .input-group { margin-bottom: 1rem; text-align: right; }
+        .input-group label { display: block; margin-bottom: 0.4rem; color: var(--text-muted); font-size: 0.85rem; }
+        .input-group input, .input-group select {
+            width: 100%; padding: 0.75rem; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; color: #fff; outline: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            justify-content: center; align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--bg-secondary);
+            width: 100%; max-width: 480px; padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #090d16;
+            border-t: 1px solid var(--border-color);
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .social-links { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
+        .social-btn {
+            width: 40px; height: 40px; border-radius: 50%; background-color: var(--bg-secondary); border: 1px solid var(--border-color);
+            display: flex; justify-content: center; align-items: center; color: var(--text-main); text-decoration: none; transition: all 0.2s ease;
+        }
+        .social-btn:hover { color: var(--accent-green); border-color: var(--accent-green); }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-gray-950 bg-grid-pattern locked">
+<body>
 
-    <!-- LOGIN MODAL (واجهة دخول إجبارية لا يمكن إغلاقها) -->
-    <div id="auth-modal" class="fixed inset-0 bg-gray-950/90 backdrop-blur-xl z-50 flex items-center justify-center p-4">
-        <div class="bg-gray-900 border-2 border-brand-500/60 rounded-3xl w-full max-w-md p-8 relative shadow-2xl glow-effect">
-            
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-gradient-to-tr from-brand-600 to-brand-400 text-gray-950 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl font-black shadow-lg shadow-brand-500/30">
-                    DZ
-                </div>
-                <h3 class="text-2xl font-black text-white">تسجيل الدخول مطلوب</h3>
-                <p class="text-xs text-gray-400 mt-1">يرجى تسجيل الدخول للوصول إلى كافة أجزاء الموقع واستخدام الأجهزة</p>
-            </div>
-
-            <!-- Form -->
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1.5">اسم المستخدم / البريد</label>
-                    <div class="relative">
-                        <i class="fas fa-user absolute right-3.5 top-3.5 text-brand-500 text-xs"></i>
-                        <input type="text" required placeholder="أدخل اسمك أو البريد" class="w-full bg-gray-950 border border-gray-800 rounded-xl py-3 pr-10 pl-3 text-xs text-white focus:border-brand-500 outline-none transition">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1.5">كلمة السر</label>
-                    <div class="relative">
-                        <i class="fas fa-lock absolute right-3.5 top-3.5 text-brand-500 text-xs"></i>
-                        <input type="password" required placeholder="••••••••" class="w-full bg-gray-950 border border-gray-800 rounded-xl py-3 pr-10 pl-3 text-xs text-white focus:border-brand-500 outline-none transition">
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full bg-gradient-to-r from-brand-500 to-brand-400 hover:from-brand-600 hover:to-brand-500 text-gray-950 font-black py-3.5 rounded-xl text-xs transition shadow-lg shadow-brand-500/20 flex items-center justify-center gap-2 mt-2">
-                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول ودخول الموقع
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Header / Navbar -->
-    <header class="border-b border-gray-800/80 bg-gray-950/80 backdrop-blur-md sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-400 border border-brand-400/50 flex items-center justify-center text-gray-950 font-black text-xl shadow-lg shadow-brand-500/20 group-hover:scale-105 transition">
-                    DZ
-                </div>
-                <div>
-                    <h1 class="text-2xl font-black text-white tracking-wide">Dz<span class="text-brand-500">Builds</span></h1>
-                    <p class="text-[10px] text-brand-400 font-semibold -mt-1">دليل وسوق التجميعات الأول في الجزائر</p>
-                </div>
-            </a>
-
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-gray-300">
-                <a href="#my-shop" class="text-brand-400 hover:underline flex items-center gap-1.5"><i class="fas fa-store"></i> المعروضات للبيع</a>
-                <a href="#ready-builds" class="hover:text-brand-400 transition">تجميعات جاهزة</a>
-                <a href="#builder" class="hover:text-brand-400 transition">صانع التجميعات</a>
-                <a href="#stores" class="hover:text-brand-400 transition">المحلات الشريكة</a>
-            </nav>
-
-            <!-- Actions -->
-            <div id="user-badge" class="hidden items-center gap-2 bg-gray-900 border border-brand-500/50 px-4 py-2 rounded-xl text-xs text-brand-400 font-bold">
-                <i class="fas fa-user-check"></i>
-                <span>تم تسجيل الدخول</span>
-            </div>
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo"><i class="fa-solid fa-microchip"></i> DZ<span>BUILDS</span></a>
+        <div class="nav-links">
+            <button class="btn btn-secondary active" onclick="switchView('builder', this)"><i class="fa-solid fa-wrench"></i> صانع التجميعات</button>
+            <button class="btn btn-secondary" onclick="switchView('market', this)"><i class="fa-solid fa-store"></i> السوق</button>
+            <button class="btn btn-primary" id="authBtn" onclick="switchView('login', this)"><i class="fa-solid fa-user"></i> دخول</button>
         </div>
     </header>
 
     <!-- Top Banner Ad -->
-    <div class="max-w-7xl mx-auto px-4 pt-6 w-full">
-        <div class="bg-gradient-to-r from-gray-900 via-gray-900 to-gray-950 border border-brand-500/30 rounded-2xl p-4 text-center flex flex-col sm:flex-row items-center justify-between gap-4 transition shadow-lg glow-effect">
-            <div class="flex items-center gap-3">
-                <span class="bg-brand-500/20 border border-brand-500/40 text-brand-400 text-xs font-bold px-3 py-1 rounded-md animate-pulse">إعلان خاص</span>
-                <p class="text-sm text-gray-200 font-semibold">تصفح القطع والتجميعات المعروضة للبيع المباشر بأفضل الأسعار!</p>
+    <div class="top-ad-banner">
+        <a href="https://facebook.com" target="_blank" class="ad-box-top">
+            <div>
+                <span style="background: #e11d48; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">عروض خاصة</span>
+                <h3 style="margin-top: 0.3rem;">تخفيضات أجهزة الحاسوب المحمولة والجيمينج هذا الأسبوع!</h3>
             </div>
-            <a href="#my-shop" class="text-xs font-extrabold text-brand-400 hover:underline flex items-center gap-1">
-                تصفح المنتجات المعروضة <i class="fas fa-arrow-left text-[10px]"></i>
-            </a>
-        </div>
+            <span class="btn btn-primary">تصفح العروض ←</span>
+        </a>
     </div>
 
-    <!-- MY SHOP / SALES SECTION (قسم إضافة صور منتجاتك للبيع) -->
-    <section id="my-shop" class="max-w-7xl mx-auto px-4 py-12 w-full">
-        <div class="text-center mb-10">
-            <span class="bg-purple-500/20 border border-purple-500/40 text-purple-300 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-block mb-3">
-                🛒 معروضات للبيع المباشر
-            </span>
-            <h2 class="text-3xl md:text-4xl font-black text-white">منتجات وتجميعات للبيع</h2>
-            <p class="text-gray-400 text-sm mt-2 max-w-xl mx-auto">مكان خصيصاً لك لعرض صور منتجاتك، أسعارك ومواصفات العتاد للزبائن</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Main Content Container -->
+    <div class="container">
+        
+        <main class="main-content">
             
-            <!-- Product Item 1 (يمكنك تغيير الصورة والسعر والتفاصيل هنا) -->
-            <div class="bg-gray-900 border-2 border-purple-500/50 rounded-3xl overflow-hidden hover:border-purple-400 transition flex flex-col justify-between group shadow-xl glow-purple">
-                <div>
-                    <div class="relative h-56 overflow-hidden bg-gray-950">
-                        <!-- استبدل هذا الرابط بـ رابط صورتك -->
-                        <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=80" alt="صورة المنتجات للبيع" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-4 right-4 bg-purple-600 text-white font-bold text-xs px-3 py-1 rounded-full shadow-lg">متوفر للبيع</span>
-                    </div>
+            <!-- SECTION 1: PC BUILDER -->
+            <div id="builderSection" class="section-view active">
+                <h2>صانع التجميعات المخصص (PC Builder)</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">اختر أجزاء حاسوبك بنفسك واعرف السعر الفوري بالتحديد</p>
 
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-white mb-2">اسم التجميعة أو المنتج هنا</h3>
-                        <p class="text-xs text-gray-400 mb-4">وصف قصير للمنتج أو التجميعة والضمان المتوفر معك.</p>
-                        
-                        <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 mb-4">
-                            <div class="text-2xl font-black text-brand-400">120,000 د.ج</div>
-                            <div class="text-xs text-gray-400 font-semibold">12 مليون سنتيم</div>
-                        </div>
-
-                        <ul class="text-xs text-gray-300 space-y-2">
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-brand-500"></i> المعالج: اكتب اسم المعالج</li>
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-brand-500"></i> الكرت: اكتب اسم كرت الشاشة</li>
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-brand-500"></i> حالة القطعة: جديدة / مستعملة</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="p-6 pt-0">
-                    <button onclick="alert('قم بوضع رابط الشراء أو حاب تتواصل معك الزبون')" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-lg">
-                        <i class="fas fa-shopping-cart"></i> اطلب الآن
-                    </button>
-                </div>
-            </div>
-
-            <!-- Product Item 2 -->
-            <div class="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden hover:border-brand-500 transition flex flex-col justify-between group shadow-xl">
-                <div>
-                    <div class="relative h-56 overflow-hidden bg-gray-950">
-                        <!-- استبدل هذا الرابط بـ رابط صورتك الثاني -->
-                        <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=800&q=80" alt="صورة منتج للبيع" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-4 right-4 bg-brand-500 text-gray-950 font-bold text-xs px-3 py-1 rounded-full shadow-lg">جديد</span>
-                    </div>
-
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-white mb-2">اسم الكرت أو القطعة هنا</h3>
-                        <p class="text-xs text-gray-400 mb-4">ضع التفاصيل والمواصفات هنا.</p>
-                        
-                        <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 mb-4">
-                            <div class="text-2xl font-black text-brand-400">55,000 د.ج</div>
-                            <div class="text-xs text-gray-400 font-semibold">5 ملايين و 500 ألف سنتيم</div>
-                        </div>
-
-                        <ul class="text-xs text-gray-300 space-y-2">
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-brand-500"></i> التوصيل: متوفر 58 ولاية</li>
-                            <li class="flex items-center gap-2"><i class="fas fa-check-circle text-brand-500"></i> الضمان: متوفر</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="p-6 pt-0">
-                    <button onclick="alert('ضع رابط التواصل الخاص بك')" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-xl border border-gray-700 transition flex items-center justify-center gap-2 text-xs">
-                        <i class="fas fa-envelope"></i> تواصل مع البائع
-                    </button>
-                </div>
-            </div>
-
-            <!-- Place to add more items -->
-            <div class="bg-gray-900/40 border-2 border-dashed border-gray-800 hover:border-brand-500 rounded-3xl p-8 flex flex-col items-center justify-center text-center transition group cursor-pointer">
-                <div class="w-16 h-16 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-brand-400 group-hover:scale-110 transition mb-4 text-2xl">
-                    <i class="fas fa-plus"></i>
-                </div>
-                <h4 class="text-lg font-bold text-white">إضافة منتج جديد</h4>
-                <p class="text-xs text-gray-400 mt-2 max-w-xs">يمكنك تكرار الكود أعلاه لإضافة أي عدد تريد من المنتجات والصور والأسعار</p>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Ready Builds Section -->
-    <section id="ready-builds" class="max-w-7xl mx-auto px-4 py-12 w-full border-t border-gray-800/80">
-        <div class="text-center mb-12">
-            <span class="bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block mb-3">
-                تجميعات مقترحة وجاهزة
-            </span>
-            <h2 class="text-3xl md:text-4xl font-black text-white">تجميعات الجيمينج حسب الميزانية</h2>
-            <p class="text-gray-400 text-sm mt-2 max-w-xl mx-auto">اختر من بين أحدث التجميعات المتوازنة المجربة بأسعار السوق الجزائري الحالي</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- Build 1: Budget -->
-            <div class="bg-gray-900/90 border border-gray-800 rounded-3xl overflow-hidden hover:border-brand-500/50 transition flex flex-col justify-between group shadow-xl hover:shadow-2xl">
-                <div>
-                    <div class="relative h-52 overflow-hidden bg-gray-950">
-                        <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=80" alt="Budget PC" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-90">
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                        <span class="absolute top-4 right-4 bg-blue-500/20 backdrop-blur-md border border-blue-500/40 text-blue-300 text-xs font-bold px-3 py-1 rounded-full">اقتصادية</span>
-                    </div>
-
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-white mb-2">تجميعة المبتدئين (i3 + GTX 1650)</h3>
-                        <div class="my-4 p-3.5 bg-gray-950/80 rounded-2xl border border-gray-800/80">
-                            <div class="text-2xl font-black text-brand-400">65,000 د.ج</div>
-                            <div class="text-xs text-gray-400 font-semibold">6 ملايين و 500 ألف سنتيم</div>
-                        </div>
-                        <ul class="text-xs text-gray-300 space-y-2.5">
-                            <li class="flex items-center gap-2"><i class="fas fa-microchip text-brand-500 w-4"></i><span><strong>المعالج:</strong> Intel Core i3-12100F</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-tv text-brand-500 w-4"></i><span><strong>كرت الشاشة:</strong> GTX 1650 4GB</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-memory text-brand-500 w-4"></i><span><strong>الرام:</strong> 16GB DDR4 3200MHz</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-hdd text-brand-500 w-4"></i><span><strong>التخزين:</strong> 512GB NVMe SSD</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="p-6 pt-0 border-t border-gray-800/60 mt-4">
-                    <div class="flex justify-between items-center text-xs py-3 text-gray-400">
-                        <span>Valorant: <strong class="text-white">160+ FPS</strong></span>
-                        <span>Minecraft: <strong class="text-white">200+ FPS</strong></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Build 2: Mid-Range -->
-            <div class="bg-gray-900 border-2 border-brand-500/80 rounded-3xl overflow-hidden flex flex-col justify-between group shadow-2xl glow-effect relative">
-                <span class="absolute top-0 left-1/2 -translate-x-1/2 bg-brand-500 text-gray-950 font-black text-[11px] px-4 py-1 rounded-b-xl uppercase tracking-wider z-10">الأكثر طلباً ومبيعاً</span>
-                <div>
-                    <div class="relative h-52 overflow-hidden bg-gray-950">
-                        <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=800&q=80" alt="Mid PC" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-90">
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                        <span class="absolute top-4 right-4 bg-brand-500/20 backdrop-blur-md border border-brand-500/40 text-brand-400 text-xs font-bold px-3 py-1 rounded-full">متوسطة متوازنة</span>
-                    </div>
-
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-white mb-2">تجميعة القوة (i5 + RTX 3060)</h3>
-                        <div class="my-4 p-3.5 bg-gray-950/80 rounded-2xl border border-gray-800">
-                            <div class="text-2xl font-black text-brand-400">115,000 د.ج</div>
-                            <div class="text-xs text-gray-400 font-semibold">11 مليون و 500 ألف سنتيم</div>
-                        </div>
-                        <ul class="text-xs text-gray-300 space-y-2.5">
-                            <li class="flex items-center gap-2"><i class="fas fa-microchip text-brand-500 w-4"></i><span><strong>المعالج:</strong> Intel Core i5-12400F</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-tv text-brand-500 w-4"></i><span><strong>كرت الشاشة:</strong> RTX 3060 12GB</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-memory text-brand-500 w-4"></i><span><strong>الرام:</strong> 16GB DDR4 3200MHz</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-hdd text-brand-500 w-4"></i><span><strong>التخزين:</strong> 1TB NVMe M.2 SSD</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="p-6 pt-0 border-t border-gray-800/60 mt-4">
-                    <div class="flex justify-between items-center text-xs py-3 text-gray-400">
-                        <span>Fortnite: <strong class="text-white">140+ FPS</strong></span>
-                        <span>GTA V: <strong class="text-white">100+ FPS</strong></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Build 3: High-End -->
-            <div class="bg-gray-900/90 border border-gray-800 rounded-3xl overflow-hidden hover:border-brand-500/50 transition flex flex-col justify-between group shadow-xl hover:shadow-2xl">
-                <div>
-                    <div class="relative h-52 overflow-hidden bg-gray-950">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="High End PC" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-90">
-                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                        <span class="absolute top-4 right-4 bg-purple-500/20 backdrop-blur-md border border-purple-500/40 text-purple-300 text-xs font-bold px-3 py-1 rounded-full">احترافية 2K</span>
-                    </div>
-
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-white mb-2">تجميعة الأداء العالي (Ryzen 5 + RTX 4070)</h3>
-                        <div class="my-4 p-3.5 bg-gray-950/80 rounded-2xl border border-gray-800/80">
-                            <div class="text-2xl font-black text-brand-400">210,000 د.ج</div>
-                            <div class="text-xs text-gray-400 font-semibold">21 مليون سنتيم</div>
-                        </div>
-                        <ul class="text-xs text-gray-300 space-y-2.5">
-                            <li class="flex items-center gap-2"><i class="fas fa-microchip text-brand-500 w-4"></i><span><strong>المعالج:</strong> AMD Ryzen 5 7600X</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-tv text-brand-500 w-4"></i><span><strong>كرت الشاشة:</strong> RTX 4070 12GB DDR6X</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-memory text-brand-500 w-4"></i><span><strong>الرام:</strong> 32GB DDR5 6000MHz</span></li>
-                            <li class="flex items-center gap-2"><i class="fas fa-hdd text-brand-500 w-4"></i><span><strong>التخزين:</strong> 1TB Gen4 NVMe SSD</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="p-6 pt-0 border-t border-gray-800/60 mt-4">
-                    <div class="flex justify-between items-center text-xs py-3 text-gray-400">
-                        <span>Cyberpunk: <strong class="text-white">90+ FPS</strong></span>
-                        <span>Warzone: <strong class="text-white">150+ FPS</strong></span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Builder Section (صانع التجميعات الأصلي) -->
-    <section id="builder" class="max-w-7xl mx-auto px-4 py-12 w-full border-t border-gray-800/80">
-        <div class="text-center mb-10">
-            <span class="bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider inline-block mb-3">
-                أداة DzBuilds التفاعلية
-            </span>
-            <h2 class="text-3xl font-black text-white">صانع التجميعات المخصص <span class="text-brand-500">(PC Builder)</span></h2>
-            <p class="text-gray-400 text-sm mt-1">اختر أجزائك المفضلة واحسب السعر التقديري بالدينار والفرنك في الوقت الفعلي</p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <!-- Left Side: Parts Selection -->
-            <div class="lg:col-span-2 space-y-4">
-                
                 <!-- CPU -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
-                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
-                        <i class="fas fa-microchip text-brand-500 text-lg"></i> المعالج (CPU)
-                    </label>
-                    <select id="cpu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
-                        <option value="0" data-fps="0">اختر المعالج...</option>
-                        <option value="18000" data-fps="60">Intel Core i3-12100F — 18,000 د.ج</option>
-                        <option value="28000" data-fps="100">Intel Core i5-12400F — 28,000 د.ج</option>
-                        <option value="32000" data-fps="120">AMD Ryzen 5 5600X — 32,000 د.ج</option>
-                        <option value="55000" data-fps="180">Intel Core i5-13600K — 55,000 د.ج</option>
-                    </select>
+                <div class="builder-card">
+                    <div class="component-info">
+                        <h4>المعالج (CPU)</h4>
+                        <p id="selected-cpu">لم يتم الاختيار</p>
+                    </div>
+                    <div class="builder-actions">
+                        <select class="builder-select" onchange="updateComponent('cpu', this)">
+                            <option value="0" data-name="لم يتم الاختيار" data-url="#">اختر المعالج...</option>
+                            <option value="32000" data-name="Intel Core i5-12400F" data-url="https://google.com">Intel Core i5-12400F - 32,000 د.ج</option>
+                            <option value="54000" data-name="Intel Core i7-13700K" data-url="https://google.com">Intel Core i7-13700K - 54,000 د.ج</option>
+                        </select>
+                        <a href="#" id="link-cpu" target="_blank" class="btn btn-secondary" style="padding: 0.5rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
                 </div>
 
                 <!-- GPU -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
-                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
-                        <i class="fas fa-tv text-brand-500 text-lg"></i> كارت الشاشة (GPU)
-                    </label>
-                    <select id="gpu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
-                        <option value="0" data-fps="0">اختر كارت الشاشة...</option>
-                        <option value="35000" data-fps="50">NVIDIA GTX 1650 4GB — 35,000 د.ج</option>
-                        <option value="52000" data-fps="90">NVIDIA RTX 3060 12GB — 52,000 د.ج</option>
-                        <option value="68000" data-fps="130">AMD Radeon RX 6700 XT 12GB — 68,000 د.ج</option>
-                        <option value="95000" data-fps="180">NVIDIA RTX 4070 12GB — 95,000 د.ج</option>
-                    </select>
+                <div class="builder-card">
+                    <div class="component-info">
+                        <h4>بطاقة الشاشة (GPU)</h4>
+                        <p id="selected-gpu">لم يتم الاختيار</p>
+                    </div>
+                    <div class="builder-actions">
+                        <select class="builder-select" onchange="updateComponent('gpu', this)">
+                            <option value="0" data-name="لم يتم الاختيار" data-url="#">اختر الكارت...</option>
+                            <option value="65000" data-name="Nvidia RTX 3060 12GB" data-url="https://google.com">Nvidia RTX 3060 - 65,000 د.ج</option>
+                            <option value="115000" data-name="Nvidia RTX 4070 12GB" data-url="https://google.com">Nvidia RTX 4070 - 115,000 د.ج</option>
+                        </select>
+                        <a href="#" id="link-gpu" target="_blank" class="btn btn-secondary" style="padding: 0.5rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
                 </div>
 
                 <!-- RAM -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
-                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
-                        <i class="fas fa-memory text-brand-500 text-lg"></i> الذاكرة (RAM)
-                    </label>
-                    <select id="ram" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
-                        <option value="0">اختر الرام...</option>
-                        <option value="8000">16GB (2x8GB) DDR4 3200MHz — 8,000 د.ج</option>
-                        <option value="16000">32GB (2x16GB) DDR4 3200MHz — 16,000 د.ج</option>
-                        <option value="22000">32GB (2x16GB) DDR5 6000MHz — 22,000 د.ج</option>
-                    </select>
+                <div class="builder-card">
+                    <div class="component-info">
+                        <h4>الذاكرة العشوائية (RAM)</h4>
+                        <p id="selected-ram">لم يتم الاختيار</p>
+                    </div>
+                    <div class="builder-actions">
+                        <select class="builder-select" onchange="updateComponent('ram', this)">
+                            <option value="0" data-name="لم يتم الاختيار" data-url="#">اختر الرامات...</option>
+                            <option value="11000" data-name="16GB DDR4 3200MHz" data-url="https://google.com">16GB DDR4 - 11,000 د.ج</option>
+                            <option value="24000" data-name="32GB DDR5 6000MHz" data-url="https://google.com">32GB DDR5 - 24,000 د.ج</option>
+                        </select>
+                        <a href="#" id="link-ram" target="_blank" class="btn btn-secondary" style="padding: 0.5rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
                 </div>
 
-                <!-- Motherboard -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
-                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
-                        <i class="fas fa-chess-board text-brand-500 text-lg"></i> اللوحة الأم
-                    </label>
-                    <select id="mobo" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
-                        <option value="0">اختر اللوحة الأم...</option>
-                        <option value="16000">H610M DDR4 — 16,000 د.ج</option>
-                        <option value="24000">B660M / B760M DDR4 — 24,000 د.ج</option>
-                        <option value="32000">B650 AM5 DDR5 — 32,000 د.ج</option>
-                    </select>
+                <div class="total-box">
+                    <div>
+                        <h3>المجموع التقديري:</h3>
+                        <p style="color: var(--text-muted);">شامل القطع المختارة أعلاه</p>
+                    </div>
+                    <div class="total-price" id="totalPrice">0 د.ج</div>
                 </div>
-
-                <!-- Storage -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
-                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
-                        <i class="fas fa-hdd text-brand-500 text-lg"></i> التخزين (SSD)
-                    </label>
-                    <select id="storage" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
-                        <option value="0">اختر مساحة التخزين...</option>
-                        <option value="7500">512GB NVMe M.2 SSD — 7,500 د.ج</option>
-                        <option value="12500">1TB NVMe M.2 SSD — 12,500 د.ج</option>
-                        <option value="22000">2TB NVMe M.2 SSD — 22,000 د.ج</option>
-                    </select>
-                </div>
-
-                <!-- PSU & Case -->
-                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-gray-700 transition">
-                    <label class="font-bold text-white min-w-[150px] flex items-center gap-2.5 text-sm">
-                        <i class="fas fa-plug text-brand-500 text-lg"></i> التغذية والهيكل
-                    </label>
-                    <select id="psu" onchange="calculateTotal()" class="bg-gray-950 border border-gray-800 text-gray-200 rounded-xl p-3 w-full focus:border-brand-500 outline-none text-xs font-semibold">
-                        <option value="0">اختر العلبة ومزود الطاقة...</option>
-                        <option value="14000">Case Standard + 500W PSU 80+ — 14,000 د.ج</option>
-                        <option value="22000">Gaming ARGB Case + 650W PSU 80+ Bronze — 22,000 د.ج</option>
-                        <option value="35000">Premium Aquarium Case + 750W Gold PSU — 35,000 د.ج</option>
-                    </select>
-                </div>
-
             </div>
 
-            <!-- Right Side: Summary Card -->
-            <div class="lg:col-span-1">
-                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 sticky top-28 space-y-6 shadow-2xl">
-                    <div class="flex items-center justify-between border-b border-gray-800 pb-4">
-                        <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                            <i class="fas fa-calculator text-brand-500"></i> ملخص السعر
-                        </h3>
-                        <button onclick="resetBuilder()" class="text-xs text-gray-400 hover:text-red-400 transition flex items-center gap-1 font-semibold">
-                            <i class="fas fa-rotate-left"></i> تفريغ
-                        </button>
+            <!-- SECTION 2: MARKETPLACE -->
+            <div id="marketSection" class="section-view">
+                <div class="market-header">
+                    <div>
+                        <h2>سوق القطع والعتاد</h2>
+                        <p style="color: var(--text-muted);">تصفح المبيعات الجديدة والمستعملة المعروضة</p>
                     </div>
-
-                    <!-- Price Box -->
-                    <div class="bg-gray-950 border border-gray-800/80 rounded-2xl p-5 text-center">
-                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">السعر التقديري الإجمالي</span>
-                        <div id="total-dzd" class="text-3xl font-black text-brand-400 my-1">0 د.ج</div>
-                        <div id="total-centime" class="text-xs text-gray-400 font-semibold">0 ملايين سنتيم</div>
-                    </div>
-
-                    <!-- Compatibility -->
-                    <div class="bg-brand-500/10 border border-brand-500/20 rounded-xl p-3 flex items-center gap-3">
-                        <i class="fas fa-check-circle text-brand-400 text-xl"></i>
-                        <span class="text-xs text-gray-300 font-medium">حالة التوافق ممتازة بين جميع الأجزاء المختارة.</span>
-                    </div>
-
-                    <!-- FPS Estimator -->
-                    <div class="space-y-3 pt-2">
-                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">الأداء المتوقع في الألعاب (1080p)</h4>
-                        <div class="flex justify-between items-center text-sm p-2 bg-gray-950/50 rounded-xl">
-                            <span class="text-gray-300 text-xs font-semibold">Valorant / CS2</span>
-                            <span id="fps-cs" class="font-extrabold text-brand-400 text-xs">-- FPS</span>
+                    <div style="display: flex; gap: 0.8rem;">
+                        <div class="tabs">
+                            <button class="tab-btn active" onclick="filterMarket('all')">الكل</button>
+                            <button class="tab-btn" onclick="filterMarket('new')">جديد</button>
+                            <button class="tab-btn" onclick="filterMarket('used')">مستعمل</button>
                         </div>
-                        <div class="flex justify-between items-center text-sm p-2 bg-gray-950/50 rounded-xl">
-                            <span class="text-gray-300 text-xs font-semibold">Fortnite</span>
-                            <span id="fps-fn" class="font-extrabold text-brand-400 text-xs">-- FPS</span>
-                        </div>
+                        <button class="btn btn-primary" id="addItemBtn" style="display: none;" onclick="openModal()">+ إضافة منتج</button>
                     </div>
+                </div>
 
-                    <!-- Action Button -->
-                    <button onclick="alert('تم حفظ كشف التجميعة بنجاح!')" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-brand-500/20">
-                        <i class="fas fa-bookmark"></i> حفظ التجميعة
-                    </button>
+                <div class="grid" id="marketGrid">
+                    <!-- Products dynamically rendered -->
                 </div>
             </div>
 
+            <!-- SECTION 3: LOGIN -->
+            <div id="loginSection" class="section-view">
+                <div class="login-box">
+                    <h2>تسجيل الدخول للمبيعات</h2>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">سجل دخولك لعرض منتجاتك للبيع بالمنصة</p>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="input-group">
+                            <label>اسم المستخدم أو البريد</label>
+                            <input type="text" id="username" required placeholder="أدخل اسمك هنا">
+                        </div>
+                        <div class="input-group">
+                            <label>كلمة المرور</label>
+                            <input type="password" required placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">دخول</button>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Sidebar Ads -->
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <span style="font-size: 0.75rem; color: var(--accent-green); font-weight: bold;">متجر شريك مميز</span>
+                <h4 style="margin: 0.5rem 0;">محل TechDZ (العاصمة)</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">تجميعات جاهزة، كروت شاشة وضمان حقيقي</p>
+                <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=300" alt="Ad Store">
+                <a href="https://facebook.com" target="_blank" class="btn btn-secondary" style="width: 100%;">تواصل مع المتجر ↗</a>
+            </div>
+
+            <div class="sidebar-card" style="background-color: #1e1b4b; border-color: #4338ca;">
+                <span style="font-size: 0.75rem; color: #a5b4fc;">مساحة إعلانية</span>
+                <h4 style="margin: 0.5rem 0;">أعلن معنا في DzBuilds</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">احصل على وصول مباشر لجمهور الجيمينج بالجزائر</p>
+                <a href="https://tiktok.com" target="_blank" class="btn btn-primary" style="width: 100%;">تواصل للإعلان</a>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Modal: Add Product -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3>إضافة قطعة / منتج للبيع</h3>
+                <button style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;" onclick="closeModal()">&times;</button>
+            </div>
+            <form onsubmit="addNewProduct(event)">
+                <div class="input-group">
+                    <label>اسم القطعة</label>
+                    <input type="text" id="pTitle" required placeholder="مثال: Nvidia RTX 3060 12GB">
+                </div>
+                <div class="input-group">
+                    <label>الحالة</label>
+                    <select id="pStatus">
+                        <option value="new">جديد (New)</option>
+                        <option value="used">مستعمل (Used)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>السعر (د.ج)</label>
+                    <input type="number" id="pPrice" required placeholder="65000">
+                </div>
+                <div class="input-group">
+                    <label>رابط الصورة</label>
+                    <input type="url" id="pImg" placeholder="https://via.placeholder.com/300">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">نشر الآن</button>
+            </form>
         </div>
-    </section>
+    </div>
 
-    <!-- Stores Section -->
-    <section id="stores" class="max-w-7xl mx-auto px-4 py-12 w-full border-t border-gray-800">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <div>
-                <h3 class="text-2xl font-bold text-white">المحلات الشريكة والمساحات الإعلانية</h3>
-                <p class="text-xs text-gray-400 mt-1">تصفح أشهر المتاجر الشريكة في الولايات</p>
-            </div>
-            <a href="#" class="text-xs bg-gray-900 border border-gray-700 hover:border-brand-500 px-4 py-2.5 rounded-xl text-gray-200 transition font-bold">
-                + أضف محلك معنا
-            </a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-gray-900/50 border border-dashed border-gray-700 hover:border-brand-500 rounded-3xl p-8 text-center flex flex-col items-center justify-center min-h-[200px] transition group cursor-pointer">
-                <div class="w-12 h-12 rounded-2xl bg-gray-800 flex items-center justify-center text-gray-500 group-hover:text-brand-400 group-hover:scale-110 transition mb-3">
-                    <i class="fas fa-store text-xl"></i>
-                </div>
-                <h4 class="font-bold text-white text-sm">مساحة إعلانية لمتجرك</h4>
-                <p class="text-xs text-gray-400 mt-1">ضع شعار ورابط متجرك ليصل إلى آلاف الزوار يومياً</p>
-            </div>
-            <div class="bg-gray-900/50 border border-dashed border-gray-700 hover:border-brand-500 rounded-3xl p-8 text-center flex flex-col items-center justify-center min-h-[200px] transition group cursor-pointer">
-                <div class="w-12 h-12 rounded-2xl bg-gray-800 flex items-center justify-center text-gray-500 group-hover:text-brand-400 group-hover:scale-110 transition mb-3">
-                    <i class="fas fa-bullhorn text-xl"></i>
-                </div>
-                <h4 class="font-bold text-white text-sm">رعاية التجميعات المقترحة</h4>
-                <p class="text-xs text-gray-400 mt-1">عرض عتادك وأسعارك في قائمة التجميعات الجاهزة</p>
-            </div>
-            <div class="bg-gray-900/50 border border-dashed border-gray-700 hover:border-brand-500 rounded-3xl p-8 text-center flex flex-col items-center justify-center min-h-[200px] transition group cursor-pointer">
-                <div class="w-12 h-12 rounded-2xl bg-gray-800 flex items-center justify-center text-gray-500 group-hover:text-brand-400 group-hover:scale-110 transition mb-3">
-                    <i class="fas fa-tags text-xl"></i>
-                </div>
-                <h4 class="font-bold text-white text-sm">عروض وتخفيضات العتاد</h4>
-                <p class="text-xs text-gray-400 mt-1">تواصل معنا لإضافة تخفيضاتك في الصفحة الرئيسية</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900/80 border-t border-gray-800 py-10 mt-12">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-            
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-xl bg-brand-500/20 border border-brand-500/40 flex items-center justify-center text-brand-400 font-bold text-xs">DZ</div>
-                <span class="text-sm font-bold text-white">Dz<span class="text-brand-500">Builds</span> — جميع الحقوق محفوظة © 2026</span>
-            </div>
-
-            <!-- Social Media Icons -->
-            <div class="flex items-center gap-4">
-                <a href="#" class="w-10 h-10 rounded-2xl bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-400 hover:border-brand-400 transition shadow-md">
-                    <i class="fab fa-instagram text-lg"></i>
-                </a>
-                <a href="#" class="w-10 h-10 rounded-2xl bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-400 hover:border-brand-400 transition shadow-md">
-                    <i class="fab fa-tiktok text-lg"></i>
-                </a>
-            </div>
-
+    <!-- Footer with Social Media -->
+    <footer>
+        <p>جميع الحقوق محفوظة © DzBuilds 2026 | دليل تجميعات الكمبيوتر والجيمينج في الجزائر</p>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="https://tiktok.com" target="_blank" class="social-btn"><i class="fab fa-tiktok"></i></a>
+            <a href="https://discord.gg" target="_blank" class="social-btn"><i class="fab fa-discord"></i></a>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- JavaScript logic -->
     <script>
-        // Mandated Login Handler
+        // PC Builder Logic
+        let prices = { cpu: 0, gpu: 0, ram: 0 };
+
+        function updateComponent(type, selectEl) {
+            const price = parseInt(selectEl.value) || 0;
+            const opt = selectEl.options[selectEl.selectedIndex];
+            const name = opt.getAttribute('data-name');
+            const url = opt.getAttribute('data-url');
+
+            prices[type] = price;
+            document.getElementById(`selected-${type}`).innerText = name;
+            
+            const linkBtn = document.getElementById(`link-${type}`);
+            if (url && url !== '#') linkBtn.href = url;
+
+            const total = Object.values(prices).reduce((a, b) => a + b, 0);
+            document.getElementById('totalPrice').innerText = total.toLocaleString() + ' د.ج';
+        }
+
+        // View Navigation Logic
+        function switchView(viewName, btn) {
+            document.querySelectorAll('.section-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-links .btn').forEach(b => b.classList.remove('active'));
+
+            if(viewName === 'builder') document.getElementById('builderSection').classList.add('active');
+            else if(viewName === 'market') document.getElementById('marketSection').classList.add('active');
+            else if(viewName === 'login') document.getElementById('loginSection').classList.add('active');
+
+            if(btn) btn.classList.add('active');
+        }
+
+        // Marketplace Items & Logic
+        let products = [
+            { id: 1, title: 'RTX 4070 Ti Super 16GB', status: 'new', price: '145,000', img: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400' },
+            { id: 2, title: 'i7 12700K + Z690 Bundle', status: 'used', price: '68,000', img: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=400' },
+            { id: 3, title: 'RAM Corsair Vengeance 32GB DDR5', status: 'new', price: '24,000', img: 'https://images.unsplash.com/photo-1562976540-1502c2145186?w=400' }
+        ];
+
+        let currentFilter = 'all';
+
+        function renderProducts() {
+            const grid = document.getElementById('marketGrid');
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => currentFilter === 'all' || p.status === currentFilter);
+
+            filtered.forEach(p => {
+                const isNew = p.status === 'new';
+                grid.innerHTML += `
+                    <div class="card">
+                        <img src="${p.img}" class="card-img" alt="${p.title}">
+                        <div class="card-body">
+                            <span class="badge ${isNew ? 'badge-new' : 'badge-used'}">${isNew ? 'جديد (New)' : 'مستعمل (Used)'}</span>
+                            <h4>${p.title}</h4>
+                            <div class="card-price">${p.price} د.ج</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterMarket(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProducts();
+        }
+
+        // Login System
         function handleLogin(e) {
             e.preventDefault();
-            document.getElementById('auth-modal').style.display = 'none';
-            document.body.classList.remove('locked');
-            document.getElementById('user-badge').classList.remove('hidden');
-            document.getElementById('user-badge').classList.add('flex');
+            const user = document.getElementById('username').value;
+            
+            document.getElementById('authBtn').innerHTML = `<i class="fa-solid fa-user-check"></i> ${user}`;
+            document.getElementById('addItemBtn').style.display = 'inline-block';
+            
+            switchView('market', document.querySelectorAll('.nav-links .btn')[1]);
         }
 
-        // Calculation Logic
-        function calculateTotal() {
-            const cpu = document.getElementById('cpu');
-            const gpu = document.getElementById('gpu');
-            const ram = document.getElementById('ram');
-            const mobo = document.getElementById('mobo');
-            const storage = document.getElementById('storage');
-            const psu = document.getElementById('psu');
+        // Modal Logic
+        function openModal() { document.getElementById('addProductModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('addProductModal').style.display = 'none'; }
 
-            const total = parseInt(cpu.value) + parseInt(gpu.value) + parseInt(ram.value) + 
-                          parseInt(mobo.value) + parseInt(storage.value) + parseInt(psu.value);
+        function addNewProduct(e) {
+            e.preventDefault();
+            const title = document.getElementById('pTitle').value;
+            const status = document.getElementById('pStatus').value;
+            const price = Number(document.getElementById('pPrice').value).toLocaleString();
+            const img = document.getElementById('pImg').value || 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400';
 
-            document.getElementById('total-dzd').innerText = total.toLocaleString() + ' د.ج';
-            const centimes = (total / 10000).toFixed(1);
-            document.getElementById('total-centime').innerText = centimes + ' ملايين سنتيم';
-
-            const cpuFps = parseInt(cpu.options[cpu.selectedIndex].getAttribute('data-fps') || 0);
-            const gpuFps = parseInt(gpu.options[gpu.selectedIndex].getAttribute('data-fps') || 0);
-
-            if(cpuFps > 0 && gpuFps > 0) {
-                const baseFps = Math.min(cpuFps, gpuFps);
-                document.getElementById('fps-cs').innerText = (baseFps * 1.8).toFixed(0) + '+ FPS';
-                document.getElementById('fps-fn').innerText = (baseFps * 1.1).toFixed(0) + '+ FPS';
-            } else {
-                document.getElementById('fps-cs').innerText = '-- FPS';
-                document.getElementById('fps-fn').innerText = '-- FPS';
-            }
+            products.unshift({ id: Date.now(), title, status, price, img });
+            renderProducts();
+            closeModal();
+            e.target.reset();
         }
 
-        function resetBuilder() {
-            document.getElementById('cpu').value = "0";
-            document.getElementById('gpu').value = "0";
-            document.getElementById('ram').value = "0";
-            document.getElementById('mobo').value = "0";
-            document.getElementById('storage').value = "0";
-            document.getElementById('psu').value = "0";
-            calculateTotal();
-        }
+        // Init
+        renderProducts();
     </script>
 </body>
 </html>
