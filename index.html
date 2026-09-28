@@ -725,13 +725,11 @@ const InternalDB = {
         localStorage.setItem('dz_posts', JSON.stringify(posts));
         return true;
     }
-};
-
 // ==========================================
 // 3. عرض البيانات في الواجهة وتحديثها
 // ==========================================
 function renderInternalSystem() {
-    const grid = document.getElementByIg('products-grid');
+    const grid = document.getElementById('products-grid');
     if (!grid) return;
 
     const posts = InternalDB.getPosts();
@@ -741,13 +739,19 @@ function renderInternalSystem() {
     grid.innerHTML = '';
 
     if (posts.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10">لا توجد منشورات حالياً. كن أول من ينشر!</div>`;
+        grid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-10">لا توجد منشورات حالياً. كن أول من ينشر!</div>';
         return;
     }
 
     posts.forEach(post => {
         const card = document.createElement('div');
         card.className = "bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-xl";
+        
+        let deleteBtnHTML = '';
+        if (currentUser.role === 'admin') {
+            deleteBtnHTML = '<button onclick="removeInternalPost(' + post.id + ')" class="bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-4 py-3 rounded-xl text-xs transition" title="حذف المنشور"><i class="fas fa-trash"></i></button>';
+        }
+
         card.innerHTML = `
             <div>
                 <div class="relative h-56 overflow-hidden bg-gray-950">
@@ -767,11 +771,7 @@ function renderInternalSystem() {
                 <button onclick="alert('رقم هاتف البائع: ${post.phone}')" class="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2">
                     <i class="fas fa-phone"></i> إظهار رقم الهاتف
                 </button>
-                ${currentUser.role === 'admin' ? `
-                    <button onclick="removeInternalPost(${post.id})" class="bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-4 py-3 rounded-xl text-xs transition" title="حذف المنشور">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                ` : ''}
+                ${deleteBtnHTML}
             </div>
         `;
         grid.appendChild(card);
@@ -791,6 +791,7 @@ function removeInternalPost(id) {
 document.addEventListener('DOMContentLoaded', () => {
     renderInternalSystem();
 });
+
     </script>
 </body>
 </html>
