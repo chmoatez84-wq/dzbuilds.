@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DzBuilds | المنصة الأولى لتجميعات وسوق الكمبيوتر في الجزائر</title>
+    <title>DzBuilds | المنصة الجزائرية الأولى لتجميعات وسوق الكمبيوتر</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -37,6 +37,62 @@
     </style>
 </head>
 <body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col justify-between bg-grid-pattern selection:bg-brand-500 selection:text-gray-950 custom-scrollbar">
+
+    <!-- ==================== نافذة تسجيل الدخول والتسجيل المشدد ==================== -->
+    <div id="auth-modal" class="fixed inset-0 bg-gray-950/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-brand-500/40 rounded-3xl w-full max-w-md p-6 relative shadow-2xl">
+            <button onclick="closeModal('auth-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-lg">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- أزرار التبديل بين الدخول والتسجيل -->
+            <div class="flex border-b border-gray-800 mb-6">
+                <button id="tab-login-btn" onclick="switchAuthTab('login')" class="w-1/2 pb-3 font-bold text-sm text-brand-400 border-b-2 border-brand-500 transition">تسجيل الدخول</button>
+                <button id="tab-register-btn" onclick="switchAuthTab('register')" class="w-1/2 pb-3 font-bold text-sm text-gray-400 border-b-2 border-transparent hover:text-white transition">حساب جديد</button>
+            </div>
+
+            <!-- نموذج تسجيل الدخول -->
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <h3 class="text-xl font-black text-white text-center mb-2">مرحباً بعودتك إلى DzBuilds</h3>
+                <div>
+                    <label class="block text-xs text-gray-300 font-bold mb-1">البريد الإلكتروني</label>
+                    <input id="login-email" type="email" required placeholder="user@domain.dz" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-300 font-bold mb-1">كلمة المرور المشددة</label>
+                    <input id="login-pass" type="password" required placeholder="••••••••" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <div id="login-error" class="text-red-400 text-xs font-bold hidden">البريد أو كلمة المرور غير صحيحة!</div>
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-3 rounded-xl text-xs transition shadow-lg">
+                    دخول إلى الحساب
+                </button>
+            </form>
+
+            <!-- نموذج تسجيل حساب جديد -->
+            <form id="register-form" onsubmit="handleRegister(event)" class="space-y-3 hidden">
+                <h3 class="text-xl font-black text-white text-center mb-2">إنشاء حساب جديد مشدد</h3>
+                <div>
+                    <label class="block text-xs text-gray-300 font-bold mb-1">اسم المستخدم</label>
+                    <input id="reg-name" type="text" required placeholder="مثال: Gamer_DZ" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-300 font-bold mb-1">البريد الإلكتروني</label>
+                    <input id="reg-email" type="email" required placeholder="user@domain.dz" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-300 font-bold mb-1">كلمة المرور (8 أحرف على الأقل)</label>
+                    <input id="reg-pass" type="password" minlength="8" required placeholder="••••••••" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-300 font-bold mb-1">الولاية / المدينة</label>
+                    <input id="reg-state" type="text" required placeholder="مثال: وهران" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white focus:border-brand-500 outline-none">
+                </div>
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-3 rounded-xl text-xs transition shadow-lg mt-2">
+                    تأكيد وإنشاء الحساب
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- ==================== نافذة إضافة منتج جديد (سوق المستخدمين) ==================== -->
     <div id="add-product-modal" class="fixed inset-0 bg-gray-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
@@ -143,15 +199,22 @@
             <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-gray-300">
                 <a href="#hero-ads" class="hover:text-brand-400 transition">العروض الإعلانية</a>
                 <a href="#builder" class="hover:text-brand-400 transition">صانع التجميعات</a>
-                <a href="#ready-builds" class="hover:text-brand-400 transition">التجميعات الجاهزة</a>
+                <a href="#ready-builds" class="hover:text-brand-400 transition">التجميعات الجاهزة (6)</a>
                 <a href="#my-shop" class="hover:text-brand-400 transition text-brand-400"><i class="fas fa-store"></i> السوق المباشر</a>
             </nav>
 
             <div class="flex items-center gap-3">
+                <!-- شريط المستخدم وتسجيل الدخول -->
+                <div id="user-header-section" class="flex items-center gap-2">
+                    <button onclick="openModal('auth-modal')" class="bg-gray-900 border border-gray-800 hover:border-brand-500 text-gray-300 hover:text-white px-3 py-2.5 rounded-xl font-bold text-xs transition flex items-center gap-2">
+                        <i class="fas fa-user-lock text-brand-500"></i> DZD Login
+                    </button>
+                </div>
+
                 <button onclick="openModal('admin-modal')" class="bg-gray-900 border border-gray-800 hover:border-brand-500 text-gray-300 hover:text-white px-3 py-2.5 rounded-xl font-bold text-xs transition flex items-center gap-2">
                     <i class="fas fa-cog text-brand-500"></i> <span class="hidden sm:inline">النظام</span>
                 </button>
-                <button onclick="openModal('add-product-modal')" class="bg-brand-500 hover:bg-brand-600 text-gray-950 px-4 py-2.5 rounded-xl font-black text-xs transition flex items-center gap-2 shadow-lg shadow-brand-500/20">
+                <button onclick="checkAuthAndAddProduct()" class="bg-brand-500 hover:bg-brand-600 text-gray-950 px-4 py-2.5 rounded-xl font-black text-xs transition flex items-center gap-2 shadow-lg shadow-brand-500/20">
                     <i class="fas fa-plus-circle"></i> بيع قطعة / PC
                 </button>
             </div>
@@ -292,20 +355,20 @@
         </div>
     </section>
 
-    <!-- ==================== التجميعات الجاهزة ==================== -->
+    <!-- ==================== التجميعات الجاهزة الـ 6 المتكاملة ==================== -->
     <section id="ready-builds" class="max-w-7xl mx-auto px-4 py-12 w-full border-b border-gray-800/80">
         <div class="text-center mb-8">
-            <h2 class="text-2xl md:text-3xl font-black text-white">⚡ تجميعات جاهزة ومقترحة</h2>
-            <p class="text-xs text-gray-400 mt-1">تجميعات متوازنة ومجربة تناسب مختلف الاستخدامات والميزانيات</p>
+            <h2 class="text-2xl md:text-3xl font-black text-white">⚡ 6 تجميعات جاهزة ومقترحة</h2>
+            <p class="text-xs text-gray-400 mt-1">تجميعات متوازنة ومجربة تناسب جميع الفئات والميزانيات بالدينار الجزائري والسنتيم</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- تجميعة 1 -->
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-brand-500 transition flex flex-col justify-between">
                 <div>
-                    <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-md border border-blue-500/20">اقتصادية / للألعاب الخفيفة</span>
+                    <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2.5 py-1 rounded-md border border-blue-500/20">اقتصادية / ألعاب خفيفة</span>
                     <h3 class="text-lg font-bold text-white mt-3 mb-1">تجميعة Entry Gaming</h3>
-                    <p class="text-xs text-gray-400 mb-4">i3-12100F + GTX 1650 + 16GB RAM + 512GB SSD</p>
+                    <p class="text-xs text-gray-400 mb-4">i3-12100F + GTX 1650 4GB + H610M + 16GB RAM + 512GB SSD</p>
                     <div class="text-2xl font-black text-brand-400 mb-4">66,000 د.ج <span class="text-xs text-gray-500 font-normal">(6.6 ملايين)</span></div>
                 </div>
                 <a href="https://www.instagram.com/dz_builds/?hl=ar" target="_blank" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 rounded-xl text-xs transition text-center block">
@@ -313,12 +376,25 @@
                 </a>
             </div>
 
-            <!-- تجميعة 2 (الأكثر طلباً) -->
+            <!-- تجميعة 2 -->
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-brand-500 transition flex flex-col justify-between">
+                <div>
+                    <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-md border border-emerald-500/20">شعبية / أفضل قيمة مقابل سعر</span>
+                    <h3 class="text-lg font-bold text-white mt-3 mb-1">تجميعة Budget Gamer AMD</h3>
+                    <p class="text-xs text-gray-400 mb-4">Ryzen 5 5600 + RX 6600 8GB + B550M + 16GB RAM + 512GB SSD</p>
+                    <div class="text-2xl font-black text-brand-400 mb-4">84,000 د.ج <span class="text-xs text-gray-500 font-normal">(8.4 ملايين)</span></div>
+                </div>
+                <a href="https://www.instagram.com/dz_builds/?hl=ar" target="_blank" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 rounded-xl text-xs transition text-center block">
+                    اطلب عبر الإنستغرام
+                </a>
+            </div>
+
+            <!-- تجميعة 3 (الأكثر طلباً) -->
             <div class="bg-gray-900 border border-brand-500/50 rounded-2xl p-6 relative glow-effect flex flex-col justify-between">
                 <div>
                     <span class="bg-brand-500 text-gray-950 text-[10px] font-black px-2.5 py-1 rounded-md">الأكثر طلباً 🔥</span>
                     <h3 class="text-lg font-bold text-white mt-3 mb-1">تجميعة Mid-Range Ultra</h3>
-                    <p class="text-xs text-gray-400 mb-4">i5-12400F + RTX 3060 12GB + 16GB RAM + 1TB SSD</p>
+                    <p class="text-xs text-gray-400 mb-4">i5-12400F + RTX 3060 12GB + B660M + 16GB RAM + 1TB SSD</p>
                     <div class="text-2xl font-black text-brand-400 mb-4">102,000 د.ج <span class="text-xs text-gray-500 font-normal">(10.2 ملايين)</span></div>
                 </div>
                 <a href="https://www.instagram.com/dz_builds/?hl=ar" target="_blank" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-2.5 rounded-xl text-xs transition text-center block">
@@ -326,13 +402,39 @@
                 </a>
             </div>
 
-            <!-- تجميعة 3 -->
+            <!-- تجميعة 4 -->
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-brand-500 transition flex flex-col justify-between">
                 <div>
-                    <span class="bg-purple-500/10 text-purple-400 text-[10px] font-bold px-2.5 py-1 rounded-md border border-purple-500/20">احترافية / صانعي المحتوى</span>
-                    <h3 class="text-lg font-bold text-white mt-3 mb-1">تجميعة High-End Pro</h3>
-                    <p class="text-xs text-gray-400 mb-4">i5-13600K + RTX 4070 12GB + 32GB RAM DDR5 + 1TB SSD</p>
-                    <div class="text-2xl font-black text-brand-400 mb-4">188,000 د.ج <span class="text-xs text-gray-500 font-normal">(18.8 مليون)</span></div>
+                    <span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold px-2.5 py-1 rounded-md border border-indigo-500/20">أداء عالي / ألعاب 2K</span>
+                    <h3 class="text-lg font-bold text-white mt-3 mb-1">تجميعة High Performance 2K</h3>
+                    <p class="text-xs text-gray-400 mb-4">i5-13400F + RTX 4060 Ti 8GB + B760 DDR5 + 32GB RAM + 1TB SSD</p>
+                    <div class="text-2xl font-black text-brand-400 mb-4">148,000 د.ج <span class="text-xs text-gray-500 font-normal">(14.8 مليون)</span></div>
+                </div>
+                <a href="https://www.instagram.com/dz_builds/?hl=ar" target="_blank" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 rounded-xl text-xs transition text-center block">
+                    اطلب عبر الإنستغرام
+                </a>
+            </div>
+
+            <!-- تجميعة 5 -->
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-brand-500 transition flex flex-col justify-between">
+                <div>
+                    <span class="bg-purple-500/10 text-purple-400 text-[10px] font-bold px-2.5 py-1 rounded-md border border-purple-500/20">احترافية / صناع المحتوى</span>
+                    <h3 class="text-lg font-bold text-white mt-3 mb-1">تجميعة Creator Pro Workstation</h3>
+                    <p class="text-xs text-gray-400 mb-4">Ryzen 7 7700X + RTX 4070 12GB + B650 + 32GB DDR5 + 1TB NVMe</p>
+                    <div class="text-2xl font-black text-brand-400 mb-4">195,000 د.ج <span class="text-xs text-gray-500 font-normal">(19.5 مليون)</span></div>
+                </div>
+                <a href="https://www.instagram.com/dz_builds/?hl=ar" target="_blank" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 rounded-xl text-xs transition text-center block">
+                    اطلب عبر الإنستغرام
+                </a>
+            </div>
+
+            <!-- تجميعة 6 -->
+            <div class="bg-gray-900 border border-yellow-500/30 rounded-2xl p-6 hover:border-yellow-500 transition flex flex-col justify-between">
+                <div>
+                    <span class="bg-yellow-500/10 text-yellow-400 text-[10px] font-bold px-2.5 py-1 rounded-md border border-yellow-500/20">الوحش الخارق / ألعاب 4K Extreme</span>
+                    <h3 class="text-lg font-bold text-white mt-3 mb-1">تجميعة Ultimate Monster 4K</h3>
+                    <p class="text-xs text-gray-400 mb-4">Ryzen 7 7800X3D + RTX 4080 Super + X670 + 32GB DDR6000 + 2TB SSD</p>
+                    <div class="text-2xl font-black text-brand-400 mb-4">340,000 د.ج <span class="text-xs text-gray-500 font-normal">(34 مليون)</span></div>
                 </div>
                 <a href="https://www.instagram.com/dz_builds/?hl=ar" target="_blank" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 rounded-xl text-xs transition text-center block">
                     اطلب عبر الإنستغرام
@@ -348,7 +450,7 @@
                 <h2 class="text-2xl md:text-3xl font-black text-white">🛒 سوق القطع والمعروضات المباشرة</h2>
                 <p class="text-xs text-gray-400 mt-1">قطع وتجميعات معروضة للبيع مباشرة من الأعضاء والمحلات</p>
             </div>
-            <button onclick="openModal('add-product-modal')" class="bg-brand-500 hover:bg-brand-600 text-gray-950 font-black px-5 py-2.5 rounded-xl text-xs transition flex items-center gap-2">
+            <button onclick="checkAuthAndAddProduct()" class="bg-brand-500 hover:bg-brand-600 text-gray-950 font-black px-5 py-2.5 rounded-xl text-xs transition flex items-center gap-2">
                 <i class="fas fa-plus"></i> إضافة منتجك للبيع
             </button>
         </div>
@@ -379,7 +481,7 @@
             </div>
 
             <!-- بطاقة إضافة منتج جديد -->
-            <div onclick="openModal('add-product-modal')" class="bg-gray-900/40 border-2 border-dashed border-gray-800 hover:border-brand-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition min-h-[320px]">
+            <div onclick="checkAuthAndAddProduct()" class="bg-gray-900/40 border-2 border-dashed border-gray-800 hover:border-brand-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition min-h-[320px]">
                 <div class="w-12 h-12 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-brand-400 mb-3 text-xl">
                     <i class="fas fa-plus"></i>
                 </div>
@@ -411,15 +513,17 @@
         </div>
     </footer>
 
-    <!-- ==================== سكريبت النظام الداخلي والوظائف ==================== -->
+    <!-- ==================== سكريبت النظام الداخلي والتحقق المشدد ==================== -->
     <script>
-        // مصفوفة حفظ المنتجات في ذاكرة المتصفح المحلية
+        // حفظ قاعدة بيانات المنتجات والمستخدمين والجلسة الحالية
         let userProducts = JSON.parse(localStorage.getItem('dzbuilds_products')) || [];
+        let registeredUsers = JSON.parse(localStorage.getItem('dzbuilds_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('dzbuilds_session')) || null;
 
-        // عند تحميل الصفحة، استرجاع المنتجات المخزنة
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts();
             updateAdminPanel();
+            checkUserSession();
         });
 
         function openModal(id) {
@@ -428,6 +532,114 @@
 
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
+        }
+
+        // التبديل بين أزرار الدخول والتسجيل
+        function switchAuthTab(tab) {
+            const loginBtn = document.getElementById('tab-login-btn');
+            const regBtn = document.getElementById('tab-register-btn');
+            const loginForm = document.getElementById('login-form');
+            const regForm = document.getElementById('register-form');
+
+            if (tab === 'login') {
+                loginBtn.className = "w-1/2 pb-3 font-bold text-sm text-brand-400 border-b-2 border-brand-500 transition";
+                regBtn.className = "w-1/2 pb-3 font-bold text-sm text-gray-400 border-b-2 border-transparent hover:text-white transition";
+                loginForm.classList.remove('hidden');
+                regForm.classList.add('hidden');
+            } else {
+                regBtn.className = "w-1/2 pb-3 font-bold text-sm text-brand-400 border-b-2 border-brand-500 transition";
+                loginBtn.className = "w-1/2 pb-3 font-bold text-sm text-gray-400 border-b-2 border-transparent hover:text-white transition";
+                regForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            }
+        }
+
+        // معالجة إنشاء حساب جديد مشدد
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-pass').value;
+            const state = document.getElementById('reg-state').value;
+
+            // التأكد من عدم تكرار البريد
+            const exists = registeredUsers.find(u => u.email === email);
+            if (exists) {
+                alert('البريد الإلكتروني مسجل بالفعل! يرجى تسجيل الدخول.');
+                return;
+            }
+
+            const newUser = { name, email, pass, state };
+            registeredUsers.push(newUser);
+            localStorage.setItem('dzbuilds_users', JSON.stringify(registeredUsers));
+
+            // تسجيل الدخول المباشر للحساب الجديد
+            currentUser = { name, email, state };
+            localStorage.setItem('dzbuilds_session', JSON.stringify(currentUser));
+
+            checkUserSession();
+            closeModal('auth-modal');
+            alert('تم إنشاء حسابك المشدد بنجاح! مرحباً بك في DzBuilds');
+            e.target.reset();
+        }
+
+        // معالجة تسجيل الدخول
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+            const errorDiv = document.getElementById('login-error');
+
+            const found = registeredUsers.find(u => u.email === email && u.pass === pass);
+            if (found) {
+                errorDiv.classList.add('hidden');
+                currentUser = { name: found.name, email: found.email, state: found.state };
+                localStorage.setItem('dzbuilds_session', JSON.stringify(currentUser));
+                checkUserSession();
+                closeModal('auth-modal');
+                e.target.reset();
+            } else {
+                errorDiv.classList.remove('hidden');
+            }
+        }
+
+        // تسجيل الخروج
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('dzbuilds_session');
+            checkUserSession();
+        }
+
+        // التحقق من حالة المستخدم وتحديث الشريط العلوي
+        function checkUserSession() {
+            const headerSec = document.getElementById('user-header-section');
+            if (currentUser) {
+                headerSec.innerHTML = `
+                    <div class="bg-gray-900 border border-brand-500/40 text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+                        <span>${currentUser.name}</span>
+                        <button onclick="handleLogout()" class="text-red-400 hover:text-red-300 mr-2 text-xs" title="تسجيل الخروج">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                headerSec.innerHTML = `
+                    <button onclick="openModal('auth-modal')" class="bg-gray-900 border border-gray-800 hover:border-brand-500 text-gray-300 hover:text-white px-3 py-2.5 rounded-xl font-bold text-xs transition flex items-center gap-2">
+                        <i class="fas fa-user-lock text-brand-500"></i> DZD Login
+                    </button>
+                `;
+            }
+        }
+
+        // حماية إضافة المنتج للمسجلين فقط
+        function checkAuthAndAddProduct() {
+            if (!currentUser) {
+                alert('عذراً! يلزم تسجيل الدخول بحسابك المشدد لبيع منتج أو قطعة في السوق.');
+                openModal('auth-modal');
+            } else {
+                openModal('add-product-modal');
+            }
         }
 
         // إضافة منتج جديد
@@ -445,7 +657,8 @@
                 price,
                 location,
                 img,
-                desc
+                desc,
+                seller: currentUser ? currentUser.name : 'مجهول'
             };
 
             userProducts.push(newProduct);
@@ -461,7 +674,6 @@
         function renderProducts() {
             const grid = document.getElementById('products-grid');
             
-            // احتفاظ بالبطاقات الافتراضية وبطاقة الإضافة
             const defaultCard = `
                 <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden hover:border-brand-500 transition flex flex-col justify-between">
                     <div>
@@ -488,7 +700,7 @@
             `;
 
             const addCard = `
-                <div onclick="openModal('add-product-modal')" class="bg-gray-900/40 border-2 border-dashed border-gray-800 hover:border-brand-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition min-h-[320px]">
+                <div onclick="checkAuthAndAddProduct()" class="bg-gray-900/40 border-2 border-dashed border-gray-800 hover:border-brand-500 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition min-h-[320px]">
                     <div class="w-12 h-12 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-brand-400 mb-3 text-xl">
                         <i class="fas fa-plus"></i>
                     </div>
@@ -505,7 +717,7 @@
                         <div>
                             <div class="h-48 bg-gray-950 relative overflow-hidden">
                                 <img src="${prod.img}" alt="${prod.title}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=600&q=80'">
-                                <span class="absolute top-3 right-3 bg-brand-500 text-gray-950 text-[10px] font-black px-2.5 py-1 rounded-full">معروض حديثاً</span>
+                                <span class="absolute top-3 right-3 bg-brand-500 text-gray-950 text-[10px] font-black px-2.5 py-1 rounded-full">البائع: ${prod.seller || 'عضو'}</span>
                             </div>
                             <div class="p-5">
                                 <div class="flex justify-between items-center text-[10px] text-gray-400 mb-1">
@@ -545,7 +757,7 @@
                     <div class="bg-gray-950 p-3 rounded-xl border border-gray-800 flex justify-between items-center text-xs">
                         <div>
                             <span class="font-bold text-white block">${item.title}</span>
-                            <span class="text-brand-400 font-semibold">${item.price.toLocaleString()} د.ج</span>
+                            <span class="text-brand-400 font-semibold">${item.price.toLocaleString()} د.ج (البائع: ${item.seller || 'عضو'})</span>
                         </div>
                         <button onclick="deleteProduct(${index})" class="text-red-400 hover:text-red-300 p-2">
                             <i class="fas fa-trash"></i>
@@ -607,7 +819,6 @@
             }
         }
 
-        // إرسال تفاصيل التجميعة للإنستغرام
         function sendBuildToInstagram() {
             window.open('https://www.instagram.com/dz_builds/?hl=ar', '_blank');
         }
