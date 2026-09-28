@@ -537,8 +537,14 @@
         }
 
         // فتح وإغلاق modal إضافة منتج
-        function openAddProductModal() {
-            document.getElementById('add-product-modal').classList.remove('hidden');
+  function openAddModal() {
+    const password = prompt("أدخل كلمة السر الخاصة بالمسؤول لإضافة منشور:");
+    if (password === "1234") { // غيّر 1234 إلى كلمة السر الخاصة بك
+        document.getElementById('addModal').classList.remove('hidden');
+    } else {
+        alert("كلمة السر خاطئة! أنت لا تملك صلاحية النشر.");
+    
+}
         }
         function closeAddProductModal() {
             document.getElementById('add-product-modal').classList.add('hidden');
