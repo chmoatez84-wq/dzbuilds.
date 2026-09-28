@@ -656,7 +656,141 @@ function handleLogin(e) {
     const modal = document.getElementById('auth-modal') || document.querySelector('.modal');
     if (modal) modal.classList.add('hidden');
     document.body.classList.remove('locked');
+// ==========================================
+// 1. إدارة جلسة المستخدم والصلاحيات الداخليّة
+// ==========================================
+const InternalAuth = {
+    // جلب بيانات المستخدم الحالي
+    getCurrentUser() {
+        return JSON.parse(localStorage.getItem('dz_user')) || { username: 'زائر', role: 'guest' };
+    },
+
+    // تسجيل الدخول الداخلي
+    login(username, password) {
+        if (username.toLowerCase() === 'admin' && password === 'dz2026') {
+            const adminUser = { username: 'الأدمن', role: 'admin' };
+            localStorage.setItem('dz_user', JSON.stringify(adminUser));
+            return adminUser;
+        } else {
+            const guestUser = { username: username || 'زائر', role: 'guest' };
+            localStorage.setItem('dz_user', JSON.stringify(guestUser));
+            return guestUser;
+        }
+    },
+
+    // تسجيل الخروج
+    logout() {
+        localStorage.removeItem('dz_user');
+        location.reload();
+    }
+};
+
+// ==========================================
+// 2. قاعدة البيانات الداخلية للمنشورات والتجميعات
+// ==========================================
+const InternalDB = {
+    // جلب جميع المنشورات المخزنة
+    getPosts() {
+        return JSON.parse(localStorage.getItem('dz_posts')) || [];
+    },
+
+    // إضافة منشور جديد
+    addPost(postData) {
+        const posts = this.getPosts();
+        const newPost = {
+            id: Date.now(),
+            title: postData.title,
+            price: postData.price,
+            phone: postData.phone,
+            desc: postData.desc,
+            img: postData.img || 'https://via.placeholder.com/400',
+            author: InternalAuth.getCurrentUser().username,
+            createdAt: new Date().toLocaleDateString('ar-DZ')
+        };
+        posts.unshift(newPost);
+        localStorage.setItem('dz_posts', JSON.stringify(posts));
+        return newPost;
+    },
+
+    // حذف منشور (صلاحية للأدمن فقط)
+    deletePost(postId) {
+        const currentUser = InternalAuth.getCurrentUser();
+        if (currentUser.role !== 'admin') {
+            alert('عذراً! هذه الصلاحية للمدير فقط.');
+            return false;
+        }
+
+        let posts = this.getPosts();
+        posts = posts.filter(post => post.id !== postId);
+        localStorage.setItem('dz_posts', JSON.stringify(posts));
+        return true;
+    }
+};
+
+// ==========================================
+// 3. عرض البيانات في الواجهة وتحديثها
+// ==========================================
+function renderInternalSystem() {
+    const grid = document.getElementByIg('products-grid');
+    if (!grid) return;
+
+    const posts = InternalDB.getPosts();
+    const currentUser = InternalAuth.getCurrentUser();
+
+    // تفريغ الحاوية وتحديث المنشورات المخزنة
+    grid.innerHTML = '';
+
+    if (posts.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10">لا توجد منشورات حالياً. كن أول من ينشر!</div>`;
+        return;
+    }
+
+    posts.forEach(post => {
+        const card = document.createElement('div');
+        card.className = "bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-xl";
+        card.innerHTML = `
+            <div>
+                <div class="relative h-56 overflow-hidden bg-gray-950">
+                    <img src="${post.img}" alt="${post.title}" class="w-full h-full object-cover">
+                    <span class="absolute top-4 right-4 bg-brand-500 text-gray-950 font-bold text-xs px-3 py-1 rounded-full shadow-lg">${post.createdAt}</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2">${post.title}</h3>
+                    <p class="text-xs text-gray-400 mb-4">${post.desc}</p>
+                    <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 mb-4 flex justify-between items-center">
+                        <span class="text-2xl font-black text-brand-400">${Number(post.price).toLocaleString()} د.ج</span>
+                        <span class="text-[10px] text-gray-500">الناشر: ${post.author}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 pt-0 flex gap-2">
+                <button onclick="alert('رقم هاتف البائع: ${post.phone}')" class="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                    <i class="fas fa-phone"></i> إظهار رقم الهاتف
+                </button>
+                ${currentUser.role === 'admin' ? `
+                    <button onclick="removeInternalPost(${post.id})" class="bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-4 py-3 rounded-xl text-xs transition" title="حذف المنشور">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                ` : ''}
+            </div>
+        `;
+        grid.appendChild(card);
+    });
 }
+
+// دالة حذف المنشور وتحديث الشاشة
+function removeInternalPost(id) {
+    if (confirm('هل أنت تأكد من حذف هذا المنشور؟')) {
+        if (InternalDB.deletePost(id)) {
+            renderInternalSystem();
+        }
+    }
+}
+
+// تشغيل النظام عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    renderInternalSystem();
+});
     </script>
 </body>
 </html>
