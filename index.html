@@ -537,14 +537,15 @@ f<!DOCTYPE html>
         }
 
         // فتح وإغلاق modal إضافة منتج
-function openAddModal() {
+function openModal() {
     const password = prompt("أدخل كلمة السر الخاصة بالمسؤول لإضافة منشور:");
-    if (password === "moatezvbsi11") { // غيّر 1234 إلى كلمة السر الخاصة بك
-        document.getElementById('addModal').classList.remove('hidden');
+    // استبدل 1234 بكلمة السر التي تريدها
+    if (password === "aicha1986") { 
+        document.getElementById('productModal').style.display = 'flex';
     } else {
         alert("كلمة السر خاطئة! أنت لا تملك صلاحية النشر.");
     }
-
+}
         function closeAddProductModal() {
             document.getElementById('add-product-modal').classList.add('hidden');
         }
