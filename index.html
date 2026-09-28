@@ -80,6 +80,30 @@
         </div>
     </div>
 
+    <!-- MODAL إدخال كلمة السر للنشر -->
+    <div id="pass-modal" class="fixed inset-0 bg-gray-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-brand-500/50 rounded-3xl w-full max-w-sm p-6 relative shadow-2xl glow-effect text-center">
+            <button onclick="closePassModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white text-lg">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="w-12 h-12 bg-brand-500/20 border border-brand-500/40 text-brand-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
+                <i class="fas fa-key"></i>
+            </div>
+            <h3 class="text-lg font-black text-white mb-1">حماية إضافة المنشورات</h3>
+            <p class="text-xs text-gray-400 mb-4">أدخل كلمة السر الخاصة بالإدارة لإضافة منشور جديد</p>
+            
+            <form onsubmit="verifyPassword(event)" class="space-y-3">
+                <div>
+                    <input id="post-password" type="password" required placeholder="أدخل كلمة السر (الافتراضية: 1234)" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-3 text-xs text-white text-center focus:border-brand-500 outline-none">
+                    <p id="pass-error" class="text-[11px] text-red-500 hidden mt-1.5 font-bold"><i class="fas fa-exclamation-circle"></i> كلمة السر غير صحيحة!</p>
+                </div>
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-black py-2.5 rounded-xl text-xs transition shadow-lg">
+                    تأكيد ودخول
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL إضافة منشور جديد للبيع -->
     <div id="add-product-modal" class="fixed inset-0 bg-gray-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="bg-gray-900 border border-brand-500/40 rounded-3xl w-full max-w-lg p-6 relative shadow-2xl glow-effect">
@@ -143,7 +167,7 @@
                     <i class="fab fa-instagram"></i>
                 </a>
                 
-                <button onclick="openAddProductModal()" class="bg-gradient-to-r from-brand-500 to-brand-400 hover:from-brand-600 hover:to-brand-500 text-gray-950 font-black px-4 py-2.5 rounded-xl text-xs transition shadow-lg shadow-brand-500/20 flex items-center gap-2">
+                <button onclick="requestAddProduct()" class="bg-gradient-to-r from-brand-500 to-brand-400 hover:from-brand-600 hover:to-brand-500 text-gray-950 font-black px-4 py-2.5 rounded-xl text-xs transition shadow-lg shadow-brand-500/20 flex items-center gap-2">
                     <i class="fas fa-plus-circle"></i> إضافة منشور للبيع
                 </button>
             </div>
@@ -317,7 +341,7 @@
                     <p class="text-xs text-gray-400 mt-1">تجميعات متناسقة 100% تناسب جميع الفئات والميزانيات في الجزائر</p>
                 </div>
 
-                <button onclick="openAddProductModal()" class="bg-gradient-to-r from-brand-500 to-brand-400 hover:from-brand-600 hover:to-brand-500 text-gray-950 font-black px-5 py-3 rounded-xl text-xs transition shadow-lg shadow-brand-500/20 flex items-center gap-2">
+                <button onclick="requestAddProduct()" class="bg-gradient-to-r from-brand-500 to-brand-400 hover:from-brand-600 hover:to-brand-500 text-gray-950 font-black px-5 py-3 rounded-xl text-xs transition shadow-lg shadow-brand-500/20 flex items-center gap-2">
                     <i class="fas fa-plus-circle"></i> إضافة منشور للبيع
                 </button>
             </div>
@@ -435,7 +459,7 @@
                     <p class="text-xs text-gray-400 mt-1">تصفح أحدث القطع المعروضة للبيع مباشرة من قبل الأعضاء والمحلات</p>
                 </div>
 
-                <button onclick="openAddProductModal()" class="bg-gradient-to-r from-brand-500 to-brand-400 hover:from-brand-600 hover:to-brand-500 text-gray-950 font-black px-5 py-3 rounded-xl text-xs transition shadow-lg flex items-center gap-2">
+                <button onclick="requestAddProduct()" class="bg-gradient-to-r from-brand-500 to-brand-400 hover:from-brand-600 hover:to-brand-500 text-gray-950 font-black px-5 py-3 rounded-xl text-xs transition shadow-lg flex items-center gap-2">
                     <i class="fas fa-plus-circle"></i> إضافة منشور للبيع
                 </button>
             </div>
@@ -457,6 +481,9 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
+        // كلمة السر المطلوبة لإضافة منشور (يمكنك تغييرها من هنا)
+        const ADMIN_SECRET_PASS = "1234";
+
         // مصفوفة تجريبية للمنتجات في السوق
         let products = [
             {
@@ -475,7 +502,7 @@
             }
         ];
 
-        // تسجيل الدخول
+        // تسجيل الدخول الرئسي
         function handleLogin(e) {
             e.preventDefault();
             const user = document.getElementById('user-input').value;
@@ -485,7 +512,30 @@
             }
         }
 
-        // فتح وإغلاق النافذة المنبثقة لإضافة منشور
+        // طلب إضافة منشور (يفتح نافذة كلمة السر أولاً)
+        function requestAddProduct() {
+            document.getElementById('pass-error').classList.add('hidden');
+            document.getElementById('post-aicha1986').value = '';
+            document.getElementById('pass-modal').classList.remove('hidden');
+        }
+
+        function closePassModal() {
+            document.getElementById('pass-modal').classList.add('hidden');
+        }
+
+        // التحقق من كلمة السر
+        function verifyPassword(e) {
+            e.preventDefault();
+            const enteredPass = document.getElementById('post-password').value;
+            if (enteredPass === ADMIN_SECRET_PASS) {
+                closePassModal();
+                openAddProductModal();
+            } else {
+                document.getElementById('pass-error').classList.remove('hidden');
+            }
+        }
+
+        // فتح وإغلاق استمارة المنشور
         function openAddProductModal() {
             document.getElementById('add-product-modal').classList.remove('hidden');
         }
@@ -507,7 +557,6 @@
             renderProducts();
             closeAddProductModal();
             
-            // إعادة ضبط الاستمارة
             e.target.reset();
             alert('تم نشر منشورك بنجاح في السوق!');
         }
@@ -560,7 +609,6 @@
             const totalDzd = cpuVal + gpuVal + mbVal + ramVal + ssdVal + psuVal;
             const totalCentime = (totalDzd / 10000).toFixed(2);
 
-            // استهلاك الطاقة
             const cpuWatt = parseInt(cpu.options[cpu.selectedIndex]?.dataset.watt || 0);
             const gpuWatt = parseInt(gpu.options[gpu.selectedIndex]?.dataset.watt || 0);
             const mbWatt = parseInt(mb.options[mb.selectedIndex]?.dataset.watt || 0);
@@ -568,12 +616,10 @@
             const ssdWatt = parseInt(ssd.options[ssd.selectedIndex]?.dataset.watt || 0);
             const totalWatt = cpuWatt + gpuWatt + mbWatt + ramWatt + ssdWatt;
 
-            // حساب الـ FPS التقديري
             const cpuFps = parseInt(cpu.options[cpu.selectedIndex]?.dataset.fps || 0);
             const gpuFps = parseInt(gpu.options[gpu.selectedIndex]?.dataset.fps || 0);
             const estFps = Math.min(cpuFps, gpuFps) || Math.max(cpuFps, gpuFps);
 
-            // تحديث الواجهة
             document.getElementById('total-dzd').innerText = totalDzd.toLocaleString() + ' د.ج';
             document.getElementById('total-centime').innerText = totalCentime + ' ملايين سنتيم';
             document.getElementById('calc-watt').innerText = totalWatt + ' Watt';
@@ -588,7 +634,6 @@
             alert('تم تقديم طلبك للتجميعة: ' + name + '\nسيتواصل معك فريق DzBuilds لترتيب الشحن.');
         }
 
-        // تشغيل أولي لعرض المنتجات
         renderProducts();
     </script>
 </body>
