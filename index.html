@@ -636,23 +636,24 @@
 function handleLogin(e) {
     e.preventDefault();
 
-    // جلب القيمة المدخلة في خانة اسم المستخدم
-    const userInput = document.getElementById('user-input').value.trim();
+    // يبحث عن الخانة سواء كانت تملك ID باسم user-input أو أي خانة نصية داخل النموذج
+    const inputEl = document.getElementById('user-input') || e.target.querySelector('input[type="text"]') || e.target.querySelector('input');
+    const userInput = inputEl ? inputEl.value.trim() : '';
 
-    // التحقق هل كتب المستخدم كلمة admin
+    // التحقق إذا كتب أدمن
     if (userInput.toLowerCase() === 'admin') {
         alert('مرحباً بك يا مدير الموقع (Admin)! تم إظهار خيارات النشر والإدارة.');
         
-        // إظهار كافة الأزرار والخصائص الخاصة بالأدمن في كودك
-        document.querySelectorAll('.admin-only, [id*="admin"]').forEach(el => {
+        // إظهار كافة الأزرار الخاصة بالإدارة
+        document.querySelectorAll('.admin-only, [id*="admin"], [onclick*="openModal"]').forEach(el => {
             el.style.display = 'flex';
-        }
+        });
     } else {
-        alert('تم الدخول كـ زائر عادي (' + userInput + ')');
+        alert('تم الدخول كـ زائر عادي (' + (userInput || 'زائر') + ')');
     }
 
     // إغلاق نافذة الدخول
-    const modal = document.getElementById('auth-modal');
+    const modal = document.getElementById('auth-modal') || document.querySelector('.modal');
     if (modal) modal.classList.add('hidden');
     document.body.classList.remove('locked');
 }
