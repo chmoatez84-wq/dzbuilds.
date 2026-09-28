@@ -633,6 +633,29 @@
         function orderBuild(name) {
             alert('تم اختيار تجميعة: ' + name + '\nسيتم توجيهك للتواصل للحجز والتوصيل.');
         }
+function handleLogin(e) {
+    e.preventDefault();
+
+    // جلب القيمة المدخلة في خانة اسم المستخدم
+    const userInput = document.getElementById('user-input').value.trim();
+
+    // التحقق هل كتب المستخدم كلمة admin
+    if (userInput.toLowerCase() === 'admin') {
+        alert('مرحباً بك يا مدير الموقع (Admin)! تم إظهار خيارات النشر والإدارة.');
+        
+        // إظهار كافة الأزرار والخصائص الخاصة بالأدمن في كودك
+        document.querySelectorAll('.admin-only, [id*="admin"]').forEach(el => {
+            el.style.display = 'flex';
+        }
+    } else {
+        alert('تم الدخول كـ زائر عادي (' + userInput + ')');
+    }
+
+    // إغلاق نافذة الدخول
+    const modal = document.getElementById('auth-modal');
+    if (modal) modal.classList.add('hidden');
+    document.body.classList.remove('locked');
+}
     </script>
 </body>
 </html>
